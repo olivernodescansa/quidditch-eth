@@ -141,12 +141,13 @@ p{margin:0 0 1em 0;}
   position:absolute;
   width:16px;height:16px;
   border: 2px solid var(--gold-light);
+  pointer-events:none;
 }
 .on-parchment .framed::before,.on-parchment .framed::after,
 .on-parchment .framed .c2::before,.on-parchment .framed .c2::after{ border-color:var(--scarlet); }
 .framed::before{ top:-2px; left:-2px; border-right:none; border-bottom:none; }
 .framed::after{ top:-2px; right:-2px; border-left:none; border-bottom:none; }
-.framed .c2{position:absolute;inset:0;}
+.framed .c2{position:absolute;inset:0;pointer-events:none;}
 .framed .c2::before{ bottom:-2px; left:-2px; border-right:none; border-top:none; }
 .framed .c2::after{ bottom:-2px; right:-2px; border-left:none; border-top:none; }
 
