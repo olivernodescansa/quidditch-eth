@@ -364,7 +364,7 @@ p{margin:0 0 1em 0;}
 .dice-wrap{ display:grid; grid-template-columns: 0.9fr 1.1fr; gap:52px; align-items:center; }
 @media (max-width:820px){ .dice-wrap{grid-template-columns:1fr;} }
 .d20{ width:150px; height:150px; margin:0 auto; animation: spin 9s linear infinite; }
-@media (prefers-reduced-motion: reduce){ .d20{animation:none;} .snitch{animation:none;} .candle,.candle::after{animation:none;} }
+@media (prefers-reduced-motion: reduce){ .d20{animation:none;} .snitch{animation:none;} .candle,.candle::after{animation:none;} .fx-snitch{animation:none;} .fx-candle,.fx-candle::after{animation:none;} .fx-card.fx-next{animation:none;} .dice-fab-spin{animation:none;} }
 @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 .formula{
   font-family:var(--font-mono); text-align:center; font-size:clamp(18px,3vw,26px);
@@ -399,6 +399,169 @@ table.roles th{
 table.roles td{ padding:12px 14px; border-top:1px solid var(--parchment-shadow); vertical-align:top; }
 table.roles tr:nth-child(even) td{ background:rgba(122,22,32,.05); }
 table.roles td.tag{ font-family:var(--font-mono); font-size:12.5px; color:var(--scarlet); white-space:nowrap; }
+table.roles td.multi-line div{ margin-bottom:6px; }
+table.roles td.multi-line div:last-child{ margin-bottom:0; }
+table.roles td.multi-line.tag div{ white-space:normal; }
+
+/* ============ FIXTURE Y TABLA DE POSICIONES ============ */
+.fx-section{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(201,161,59,.14), transparent 55%),
+    radial-gradient(ellipse at 12% 90%, rgba(122,22,32,.18), transparent 50%),
+    radial-gradient(ellipse at 88% 85%, rgba(27,44,86,.22), transparent 50%),
+    var(--ink);
+}
+.fx-stars{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+.fx-stars span{
+  position:absolute; width:2px; height:2px; background:var(--gold-light); border-radius:50%;
+  opacity:.5; animation: twinkle 4s ease-in-out infinite;
+}
+.fx-candle{
+  position:absolute; width:5px; height:28px; z-index:1; opacity:.9;
+  background: linear-gradient(180deg,#efe6c9,#cbb884); border-radius:2px;
+  animation: bob 6s ease-in-out infinite;
+}
+.fx-candle::after{
+  content:""; position:absolute; top:-11px; left:50%; transform:translateX(-50%);
+  width:8px; height:14px;
+  background: radial-gradient(circle at 50% 30%, #fff2c2, #f0b23c 55%, transparent 75%);
+  border-radius:50% 50% 45% 45%; filter:blur(.3px);
+  animation: flicker 2.4s ease-in-out infinite;
+}
+.fx-snitch{ position:absolute; width:22px; height:22px; z-index:1; opacity:.85; animation: fly 17s ease-in-out infinite; will-change:transform; }
+.fx-snitch svg{ width:100%; height:100%; }
+
+.fixture-grid{ position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; margin-bottom:64px; }
+
+.fx-card{
+  position:relative;
+  background: linear-gradient(160deg, rgba(24,26,36,.92), rgba(10,11,15,.96));
+  border:1px solid var(--gold-dim);
+  border-radius:3px;
+  padding:22px 22px 20px 22px;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, opacity .25s ease, filter .25s ease;
+}
+.fx-card::before, .fx-card::after{
+  content:""; position:absolute; width:14px; height:14px;
+  border:2px solid var(--gold-dim); pointer-events:none;
+}
+.fx-card::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+.fx-card::after{ top:-1px; right:-1px; border-left:none; border-bottom:none; }
+.fx-card:hover{ transform:translateY(-4px); border-color:var(--gold); box-shadow:0 14px 30px rgba(0,0,0,.4); }
+
+.fx-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding-bottom:12px; margin-bottom:10px; border-bottom:1px solid var(--ink-line);
+}
+.fx-head span{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-cream); }
+.fx-head .fx-date{ font-family:var(--font-head); font-size:14.5px; letter-spacing:.03em; text-transform:none; color:var(--gold-light); font-weight:600; }
+.fx-match{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px; padding:9px 0; }
+.fx-match + .fx-match{ border-top:1px dashed var(--ink-line); }
+.fx-team{ display:flex; align-items:center; gap:8px; font-size:15.5px; color:var(--cream-text); }
+.fx-team.away{ flex-direction:row-reverse; text-align:right; }
+.fx-vs{ font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-cream); opacity:.7; }
+.house-chip{ width:11px; height:11px; border-radius:50%; flex-shrink:0; display:inline-block; background:var(--house-color); box-shadow:0 0 7px var(--house-color); }
+
+/* fecha ya jugada */
+.fx-card.fx-played{ opacity:.42; filter:grayscale(.7); }
+.fx-card.fx-played:hover{ transform:none; border-color:var(--gold-dim); box-shadow:none; }
+.fx-played-tag{
+  position:absolute; top:10px; right:10px;
+  font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted-cream); border:1px solid var(--ink-line); padding:3px 9px; border-radius:20px;
+  background:rgba(0,0,0,.4);
+}
+
+/* próxima fecha a jugarse */
+.fx-card.fx-next{
+  border-color:var(--gold-light);
+  animation: fxPulse 2.6s ease-in-out infinite;
+}
+@keyframes fxPulse{
+  0%,100%{ box-shadow:0 0 0 1px var(--gold-light), 0 0 22px rgba(240,212,136,.2); }
+  50%{ box-shadow:0 0 0 1px var(--gold-light), 0 0 40px rgba(240,212,136,.45); }
+}
+.fx-next-tag{
+  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink); background:linear-gradient(180deg,var(--gold-light),var(--gold));
+  padding:4px 14px; border-radius:20px; box-shadow:0 4px 14px rgba(0,0,0,.4);
+  white-space:nowrap;
+}
+
+.standings-head{ position:relative; z-index:2; text-align:center; margin-bottom:24px; }
+.standings-head h3{ font-family:var(--font-head); font-size:clamp(22px,3vw,28px); color:var(--gold-light); }
+
+.standings-list{ position:relative; z-index:2; max-width:760px; margin:0 auto; }
+.sr-row{
+  display:flex; align-items:center; gap:18px;
+  padding:16px 20px; margin-bottom:12px;
+  border:1px solid var(--gold-dim); border-radius:4px;
+  background: linear-gradient(160deg, rgba(24,26,36,.9), rgba(10,11,15,.95));
+  transition: transform .2s ease, border-color .2s ease;
+}
+.sr-row:hover{ transform:translateY(-2px); border-color:var(--gold); }
+.sr-row.sr-leader{
+  border-color:var(--gold-light);
+  box-shadow:0 0 0 1px var(--gold-light), 0 0 26px rgba(240,212,136,.22);
+  background: linear-gradient(160deg, rgba(64,50,20,.55), rgba(10,11,15,.95));
+}
+.sr-rank{
+  font-family:var(--font-head); font-size:24px; font-weight:700;
+  color:var(--gold-light); width:30px; text-align:center; flex-shrink:0;
+}
+.sr-team{ display:flex; align-items:center; gap:10px; font-weight:600; color:var(--cream-text); flex:1 1 140px; min-width:0; }
+.sr-team span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.sr-stats{ display:flex; gap:16px; flex-shrink:0; }
+.sr-stats div{ display:flex; flex-direction:column; align-items:center; }
+.sr-stats b{ font-family:var(--font-mono); font-size:15px; color:var(--cream-text); font-weight:700; }
+.sr-stats small{ font-family:var(--font-mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-cream); opacity:.7; }
+.sr-pts{ text-align:right; flex-shrink:0; min-width:64px; }
+.sr-pts b{ display:block; font-family:var(--font-mono); font-size:22px; font-weight:700; color:var(--gold-light); line-height:1; }
+.sr-pts small{ font-family:var(--font-mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-cream); }
+
+@media (max-width:640px){
+  .sr-row{ flex-wrap:wrap; row-gap:12px; padding:14px 16px; }
+  .sr-team{ order:1; flex:1 1 auto; }
+  .sr-rank{ order:0; }
+  .sr-stats{ order:3; flex:1 1 100%; justify-content:space-between; padding-top:10px; border-top:1px dashed var(--ink-line); }
+  .sr-pts{ order:2; }
+}
+
+.standings-legend{ position:relative; z-index:2; text-align:center; font-size:14.5px; color:var(--muted-cream); max-width:640px; margin:16px auto 0 auto; }
+
+/* ============ TABLA RESPONSIVE "ROLES Y ACCIONES" (sin scroll horizontal en mobile) ============ */
+@media (max-width:760px){
+  .table-scroll{ overflow-x:visible; border:none; }
+
+  table.roles{ min-width:0; width:100%; display:block; }
+  table.roles thead{ display:none; }
+  table.roles tbody{ display:block; }
+  table.roles tr{ display:block; margin-bottom:14px; border-radius:3px; overflow:hidden; }
+  table.roles td{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    width:auto; padding:11px 14px; text-align:right; border-top:none;
+  }
+  table.roles td::before{
+    content: attr(data-label);
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+    text-align:left; flex-shrink:0;
+  }
+
+  table.roles tr{ border:1px solid var(--scarlet); background:rgba(255,255,255,.35); }
+  table.roles tr:nth-child(even){ background:rgba(122,22,32,.06); }
+  table.roles td{ border-bottom:1px solid var(--parchment-shadow); }
+  table.roles td:last-child{ border-bottom:none; }
+  table.roles td::before{ color:var(--scarlet); }
+  table.roles td.tag{ text-align:right; }
+
+  /* celdas del Cazador unificado: la etiqueta arriba, las acciones apiladas debajo */
+  table.roles td.multi-line{ display:block; text-align:left; }
+  table.roles td.multi-line::before{ display:block; margin-bottom:8px; }
+  table.roles td.multi-line div{ text-align:left; }
+}
 
 /* ============ TIMELINE (Desarrollo del partido) ============ */
 .timeline{ position:relative; max-width:820px; margin:0 auto; }
@@ -527,9 +690,67 @@ footer .fsnitch{ width:20px;height:20px; color:var(--gold); }
 }
 .dice-result.pop{ animation: dicePop .4s ease; }
 @keyframes dicePop{ 0%{ transform:scale(.5); opacity:0; } 60%{ transform:scale(1.25); opacity:1; } 100%{ transform:scale(1); } }
+.dice-history{
+  list-style:none;
+  margin: 4px 0 16px 0;
+  padding: 0;
+  min-height:1.4em;
+  text-align:center;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.03em;
+  color:var(--muted-cream);
+  opacity:.85;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.dice-history li{ display:flex; gap:8px; align-items:baseline; justify-content:center; }
+.dice-history li:first-child{ color:var(--gold-light); opacity:1; }
+.dice-history .hv{ font-weight:700; min-width:1.6em; text-align:right; }
+.dice-history.hidden{ display:none; }
+#diceRollBtn:disabled,
+#diceRollBtn:disabled:hover{
+  background:#4a4a4a;
+  border-color:#5a5a5a;
+  color:#9a9a9a;
+  opacity:.7;
+  cursor:not-allowed;
+  font-variant-numeric: tabular-nums;
+}
 .dice-houses{ display:flex; gap:10px; justify-content:center; margin-bottom:20px; }
 .dice-houses span{ width:10px; height:10px; border-radius:50%; display:inline-block; }
 @media (prefers-reduced-motion: reduce){ #diceSvg.is-rolling{ animation:none; } }
+
+.training-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin: 2px 0 18px 0;
+}
+.training-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted-cream);
+}
+.switch{ position:relative; display:inline-block; width:42px; height:23px; flex-shrink:0; }
+.switch input{ opacity:0; width:0; height:0; position:absolute; }
+.switch .slider{
+  position:absolute; inset:0; cursor:pointer;
+  background:#3a3a3a; border:1px solid var(--gold-dim);
+  border-radius:24px; transition:.2s ease;
+}
+.switch .slider::before{
+  content:""; position:absolute;
+  height:15px; width:15px; left:3px; bottom:3px;
+  background:var(--muted-cream); border-radius:50%; transition:.2s ease;
+}
+.switch input:checked + .slider{ background:var(--gold-dim); border-color:var(--gold); }
+.switch input:checked + .slider::before{ transform:translateX(19px); background:var(--gold-light); }
+.switch input:focus-visible + .slider{ outline:2px solid var(--gold-light); outline-offset:2px; }
 
 
 /* ============ CREDIT BAR ============ */
@@ -558,6 +779,29 @@ body{ padding-bottom: 44px; }
   .credit-bar{ padding:9px 10px; gap:6px; }
   .credit-bar .lbl, .credit-bar a{ font-size:10.5px; }
 }
+
+/* ============ DICE FAB (botón flotante) ============ */
+.dice-fab{
+  position:fixed; right:22px; bottom:74px; z-index:65;
+  width:58px; height:58px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(160deg, var(--gold-light), var(--gold) 60%, var(--bronze));
+  color:var(--ink);
+  border:2px solid var(--gold-light);
+  box-shadow:0 8px 22px rgba(0,0,0,.45);
+  cursor:pointer;
+  padding:0;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.dice-fab svg{ width:30px; height:30px; overflow:visible; }
+.dice-fab-spin{ transform-box: fill-box; transform-origin:center; animation: fabSpin 7s linear infinite; }
+@keyframes fabSpin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+.dice-fab:hover{ transform:scale(1.08); box-shadow:0 12px 28px rgba(0,0,0,.5); }
+.dice-fab:active{ transform:scale(.94); }
+@media (max-width:420px){
+  .dice-fab{ width:50px; height:50px; right:14px; bottom:64px; }
+  .dice-fab svg{ width:25px; height:25px; }
+}
 </style>
 </head>
 <body>
@@ -574,8 +818,8 @@ body{ padding-bottom: 44px; }
     <li><a href="#equipos">Equipos</a></li>
     <li><a href="#dados">Dados</a></li>
     <li><a href="#partido">Partido</a></li>
-    <li><a href="#cartas">Cartas</a></li>
-    <li><a href="#" id="diceNavLink">🎲 Dado</a></li>
+    <li><a href="#fixture">Fixture</a></li>
+    <li><a href="#dado" id="diceNavLink">🎲 Dado</a></li>
     <li><a href="#arbitro">Árbitro</a></li>
   </ul>
 </nav>
@@ -603,10 +847,10 @@ body{ padding-bottom: 44px; }
     </div>
     <p class="eyebrow" style="justify-content:center;">Sistema Copa de Hogwarts · Rol por dados</p>
     <h1><small>Torneo de Quidditch</small>Hogwarts HETNE</h1>
-    <p class="tagline">Escobas en alto, dados sobre la mesa. Cinco rondas, cuatro atributos y una Snitch dorada deciden quién levanta la copa este año.</p>
+    <p class="tagline">Escobas en alto, dados sobre la mesa. Cinco rondas, tres turnos por equipo y una Snitch dorada deciden quién levanta la copa este año.</p>
     <div class="hero-ctas">
       <a class="btn solid" href="#objetivo">Leer el reglamento</a>
-      <a class="btn" href="#cartas">Ver cartas tácticas</a>
+      <a class="btn" href="#fixture">Ver Fixture</a>
     </div>
   </div>
 
@@ -700,30 +944,11 @@ body{ padding-bottom: 44px; }
     <div class="framed reveal">
       <div class="c2"></div>
       <ul class="duty-list">
-        <li><span class="mark">✦</span><span>Distribuir los atributos de todo el equipo antes del partido y entregar esa distribución al Rol Máster.</span></li>
-        <li><span class="mark">✦</span><span>Elegir la estrategia del equipo en cada ronda: Ataque, Equilibrada, Defensa o Proteger al Buscador.</span></li>
-        <li><span class="mark">✦</span><span>Decidir, ronda a ronda, si utiliza o descarta la Carta Táctica recibida.</span></li>
+        <li><span class="mark">✦</span><span>Lanzar el d20 inicial en representación de su equipo para definir quién comienza atacando con la Quaffle.</span></li>
+        <li><span class="mark">✦</span><span>Definir qué jugador actúa en cada turno de ataque o de defensa.</span></li>
         <li><span class="mark">✦</span><span>Solicitar un único tiempo muerto por partido.</span></li>
         <li><span class="mark">✦</span><span>Realizar los reemplazos de suplentes entre rondas.</span></li>
       </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ATRIBUTOS ============ -->
-<section class="section on-ink" id="atributos">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 4</p>
-      <h2>Atributos</h2>
-      <p class="lede">El Capitán los reparte antes del partido. Una vez comenzado, quedan fijos.</p>
-    </div>
-    <div class="attr-grid reveal">
-      <div class="attr-card"><h4>Velocidad</h4><p>Conducir la Quaffle, perseguir la Snitch y desempatar entre Buscadores.</p></div>
-      <div class="attr-card"><h4>Precisión</h4><p>Pases y lanzamientos al aro.</p></div>
-      <div class="attr-card"><h4>Reflejos</h4><p>Intercepciones, robos y atajadas del Guardián.</p></div>
-      <div class="attr-card"><h4>Fuerza</h4><p>Ataques y defensas con Bludgers.</p></div>
-      <div class="attr-card"><h4>Estrategia</h4><p>Fintas y acciones tácticas.</p></div>
     </div>
   </div>
 </section>
@@ -732,9 +957,9 @@ body{ padding-bottom: 44px; }
 <section class="section on-parchment" id="dados">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 5 · 6</p>
-      <h2>Dados y Dificultad</h2>
-      <p class="lede">Todo se resuelve con un d20, el atributo indicado y las bonificaciones activas.</p>
+      <p class="eyebrow" style="justify-content:center;">§ 4</p>
+      <h2>El Dado</h2>
+      <p class="lede">Todo se resuelve con un d20. El rol narra la acción; el dado decide si tiene éxito.</p>
     </div>
     <div class="dice-wrap reveal">
       <div>
@@ -748,37 +973,18 @@ body{ padding-bottom: 44px; }
           <polygon points="50,96 8,72 50,50" fill="rgba(122,22,32,.07)" stroke="#7a1620" stroke-width="1"/>
           <text x="50" y="55" text-anchor="middle" font-family="JetBrains Mono" font-size="15" fill="#7a1620">20</text>
         </svg>
-        <p class="formula">1d20 + atributo + bonificaciones</p>
-        <p style="text-align:center; font-size:16px; color:var(--muted-ink); margin-top:14px;">Sin oposición: se compara contra la DC. Con oposición: ambos tiran y gana el resultado más alto — en caso de empate, gana el defensor.</p>
+        <p class="formula">1d20 contra 1d20</p>
+        <p style="text-align:center; font-size:16px; color:var(--muted-ink); margin-top:14px;">El dado decide si una acción tiene éxito o no. El rol sirve para narrar cómo actúa tu personaje.</p>
       </div>
-      <div>
-        <ul class="ladder">
-          <li><div class="dc">8</div><div class="row-label"><div class="bar" style="flex:1;"><i style="width:35%;"></i></div><span class="name">Fácil</span></div></li>
-          <li><div class="dc">10</div><div class="row-label"><div class="bar" style="flex:1;"><i style="width:48%;"></i></div><span class="name">Normal</span></div></li>
-          <li><div class="dc">13</div><div class="row-label"><div class="bar" style="flex:1;"><i style="width:63%;"></i></div><span class="name">Difícil</span></div></li>
-          <li><div class="dc">16</div><div class="row-label"><div class="bar" style="flex:1;"><i style="width:80%;"></i></div><span class="name">Muy difícil</span></div></li>
-          <li><div class="dc">20</div><div class="row-label"><div class="bar" style="flex:1;"><i style="width:100%;"></i></div><span class="name">Heroica</span></div></li>
+      <div class="framed" style="height:calc(100% - 34px);">
+        <div class="c2"></div>
+        <ul class="duty-list">
+          <li><span class="mark">✦</span><span>El jugador que actúa hace su rol primero, narrando la jugada.</span></li>
+          <li><span class="mark">✦</span><span>El jugador rival hace su rol en respuesta.</span></li>
+          <li><span class="mark">✦</span><span>Ambos lanzan un d20. Gana quien saque el número más alto.</span></li>
+          <li><span class="mark">✦</span><span>Si gana el atacante, su equipo conserva la Quaffle y sigue atacando. Si gana el defensor, su equipo recupera la Quaffle.</span></li>
         </ul>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MODIFICADORES DE RONDA ============ -->
-<section class="section on-ink" id="modificadores">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 6</p>
-      <h2>Modificadores de Ronda</h2>
-      <p class="lede">Al iniciar cada ronda, el Rol Máster elige o sortea un efecto que se mantiene activo hasta el final.</p>
-    </div>
-    <div class="mod-grid reveal">
-      <div class="mod-card"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 14v4M10 15v4M14 14v4M18 15v4M4 8a5 5 0 0 1 9-3 4 4 0 0 1 7 2.5A3.5 3.5 0 0 1 19 14H6a3 3 0 0 1-2-6Z"/></svg>Lluvia intensa</h4><p>+2 DC en pases y lanzamientos largos.</p></div>
-      <div class="mod-card"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 8h11a3 3 0 1 0-3-3M3 13h15a3 3 0 1 1-3 3M3 18h9"/></svg>Viento fuerte</h4><p>+2 DC en todos los lanzamientos.</p></div>
-      <div class="mod-card"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8" opacity=".4"/><circle cx="12" cy="12" r="4"/></svg>Niebla</h4><p>La primera pista de la Snitch resulta más ambigua.</p></div>
-      <div class="mod-card"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="3"/><path d="M10 10l9 9"/></svg>Bludger persiguiendo</h4><p>+2 DC para la próxima acción del jugador perseguido.</p></div>
-      <div class="mod-card"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m3 12 6 6L21 6"/></svg>Asistencia perfecta</h4><p>-2 DC en la siguiente acción ofensiva del equipo.</p></div>
-      <div class="mod-card"><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20V10l8-6 8 6v10M9 20v-6h6v6"/></svg>Formación favorable</h4><p>-1 DC para todas las acciones del equipo beneficiado.</p></div>
     </div>
   </div>
 </section>
@@ -787,28 +993,31 @@ body{ padding-bottom: 44px; }
 <section class="section on-parchment" id="roles">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 7</p>
+      <p class="eyebrow" style="justify-content:center;">§ 5</p>
       <h2>Roles y Acciones</h2>
-      <p class="lede">Cada posición tiene su propio repertorio de jugadas y su dificultad base.</p>
+      <p class="lede">Cada posición participa según le toque atacar o defender.</p>
     </div>
     <div class="table-scroll reveal">
       <table class="roles">
         <thead>
-          <tr><th>Rol</th><th>Acción</th><th>Tipo</th><th>Atributo</th><th>DC base</th></tr>
+          <tr><th>Rol</th><th>Acción</th><th>Tipo</th><th>Cuándo se usa</th></tr>
         </thead>
         <tbody>
-          <tr><td>Guardián</td><td>Atajar lanzamiento</td><td>Defensiva</td><td>Reflejos</td><td class="tag">Enfrentada</td></tr>
-          <tr><td>Guardián</td><td>Interceptar pase</td><td>Defensiva</td><td>Reflejos</td><td class="tag">No aplica</td></tr>
-          <tr><td>Cazador</td><td>Conducir la Quaffle</td><td>Conducción</td><td>Velocidad</td><td class="tag">10</td></tr>
-          <tr><td>Cazador</td><td>Pasar la Quaffle</td><td>Pase</td><td>Precisión</td><td class="tag">10</td></tr>
-          <tr><td>Cazador</td><td>Lanzar al aro</td><td>Lanzamiento</td><td>Precisión</td><td class="tag">13</td></tr>
-          <tr><td>Cazador</td><td>Robar Quaffle</td><td>Defensiva</td><td>Reflejos</td><td class="tag">10</td></tr>
-          <tr><td>Cazador</td><td>Finta</td><td>Ofensiva</td><td>Estrategia</td><td class="tag">13</td></tr>
-          <tr><td>Golpeador</td><td>Atacar con Bludger</td><td>Ofensiva</td><td>Fuerza</td><td class="tag">13</td></tr>
-          <tr><td>Golpeador</td><td>Defender compañero</td><td>Defensiva</td><td>Fuerza</td><td class="tag">Enfrentada</td></tr>
-          <tr><td>Golpeador</td><td>Desviar Bludger</td><td>Defensiva</td><td>Reflejos</td><td class="tag">No aplica</td></tr>
-          <tr><td>Golpeador</td><td>Proteger Buscador</td><td>Defensiva</td><td>Estrategia</td><td class="tag">10</td></tr>
-          <tr><td>Buscador</td><td>Buscar la Snitch</td><td>Especial</td><td>—</td><td class="tag">Deducción</td></tr>
+          <tr>
+            <td data-label="Rol">Cazador</td>
+            <td data-label="Acción" class="multi-line">
+              <div>Atacar con la Quaffle</div>
+              <div>Intentar hacer gol</div>
+            </td>
+            <td data-label="Tipo">Ofensiva</td>
+            <td class="tag multi-line" data-label="Cuándo se usa">
+              <div>Turno de ataque</div>
+              <div>Cuando ya se ganó un turno anterior en dicha ronda</div>
+            </td>
+          </tr>
+          <tr><td data-label="Rol">Golpeador</td><td data-label="Acción">Golpear al rival con Bludger</td><td data-label="Tipo">Defensiva</td><td class="tag" data-label="Cuándo se usa">Turno de defensa</td></tr>
+          <tr><td data-label="Rol">Guardián</td><td data-label="Acción">Atajar un tiro al aro</td><td data-label="Tipo">Defensiva</td><td class="tag" data-label="Cuándo se usa">Cuando el otro equipo ya ganó un turno ofensivo en la misma ronda</td></tr>
+          <tr><td data-label="Rol">Buscador</td><td data-label="Acción">Buscar la Snitch</td><td data-label="Tipo">Especial</td><td class="tag" data-label="Cuándo se usa">Al finalizar cada ronda</td></tr>
         </tbody>
       </table>
     </div>
@@ -819,37 +1028,39 @@ body{ padding-bottom: 44px; }
 <section class="section on-ink" id="partido">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 8</p>
+      <p class="eyebrow" style="justify-content:center;">§ 6</p>
       <h2>Desarrollo del Partido</h2>
       <p class="lede">Cinco rondas como máximo. Cada una repite exactamente esta secuencia.</p>
     </div>
     <div class="timeline reveal">
       <div class="tl-step">
         <div class="idx">1</div>
-        <h4>Modificador de Ronda</h4>
-        <p>El Rol Máster aplica un modificador de la tabla de clima y situaciones especiales, activo durante toda la ronda.</p>
+        <h4>Inicio del Partido</h4>
+        <p>Los dos Capitanes lanzan un d20. El que saca el número más alto comienza con la Quaffle: tener la Quaffle significa que ese equipo empieza atacando.</p>
+        <div class="sub">Ejemplo: Slytherin saca 15, Ravenclaw saca 7. Slytherin inicia el partido atacando.</div>
       </div>
       <div class="tl-step">
         <div class="idx">2</div>
-        <h4>Cartas Tácticas</h4>
-        <p>Cada equipo recibe una Carta Táctica al azar. El Capitán decide de inmediato si la usa esa ronda o la descarta; nunca se guardan para después.</p>
+        <h4>Rondas y Turnos</h4>
+        <p>Cada partido tiene 5 rondas. Cada ronda consta de 3 turnos por equipo. En cada turno solo puede ocurrir una de dos cosas: Atacar (si tu equipo tiene la Quaffle) o Defender (si el equipo rival la tiene).</p>
       </div>
       <div class="tl-step">
         <div class="idx">3</div>
-        <h4>Estrategia del Capitán</h4>
-        <p>Cada Capitán elige entre Ataque, Equilibrada, Defensa o Proteger al Buscador, definiendo cuántas acciones ofensivas y defensivas tendrá su equipo.</p>
-        <div class="sub">Proteger al Buscador otorga, además, una pista adicional únicamente al Buscador de ese equipo.</div>
+        <h4>Resolución de un Turno</h4>
+        <p>El jugador atacante hace su rol, luego el jugador defensor hace el suyo. Ambos lanzan un d20 y gana el número más alto.</p>
+        <div class="sub">Si gana el atacante, su equipo conserva la Quaffle y continúa atacando. Si gana el defensor, su equipo recupera la Quaffle y pasa a atacar cuando corresponda.</div>
       </div>
       <div class="tl-step">
         <div class="idx">4</div>
-        <h4>Posesión Inicial</h4>
-        <p>Solo antes de la primera ronda: un Cazador de cada equipo tira 1d20 + Velocidad. El resultado más alto se queda con la Quaffle.</p>
+        <h4>Intento de Gol</h4>
+        <p>Un equipo solo puede lanzar al aro si ya ganó un ataque anteriormente durante esa misma ronda. El Cazador hace el lanzamiento, el Guardián rival intenta detenerlo, y ambos lanzan un d20.</p>
+        <div class="sub">Si gana el Cazador: gol (+10 puntos) y su equipo inicia la siguiente ronda con la Quaffle. Si gana el Guardián: ataja el lanzamiento, no hay puntos, y el equipo defensor comienza la siguiente ronda atacando.</div>
       </div>
       <div class="tl-step">
         <div class="idx">5</div>
-        <h4>Desarrollo de la Jugada</h4>
-        <p>Quien tiene la Quaffle solo puede actuar en ofensiva; el rival, solo en defensiva. Para lanzar al aro es obligatorio encadenar antes una Conducción o un Pase exitosos — no existe otra secuencia válida.</p>
-        <div class="sub">Si el Guardián ataja, su equipo obtiene la posesión y una acción ofensiva extra para contraatacar de inmediato.</div>
+        <h4>Buscadores y la Snitch</h4>
+        <p>Después de los turnos de la ronda, el organizador da una pista sobre la ubicación de la Snitch. Cada Buscador interpreta la pista, elige un lugar donde buscar y escribe su rol.</p>
+        <div class="sub">Si un Buscador encuentra la Snitch: +150 puntos y el partido termina de inmediato. Si ninguno la encuentra, comienza la siguiente ronda.</div>
       </div>
     </div>
   </div>
@@ -859,7 +1070,7 @@ body{ padding-bottom: 44px; }
 <section class="section on-parchment" id="puntos">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 9</p>
+      <p class="eyebrow" style="justify-content:center;">§ 7</p>
       <h2>Sistema de Puntos</h2>
       <p class="lede">Quince goles equivalen, apenas, a una sola Snitch capturada.</p>
     </div>
@@ -879,138 +1090,171 @@ body{ padding-bottom: 44px; }
   </div>
 </section>
 
-<!-- ============ CARTAS TACTICAS ============ -->
-<section class="section on-ink" id="cartas">
-  <div class="wrap">
+<!-- ============ FIXTURE Y TABLA DE POSICIONES ============ -->
+<section class="section on-ink fx-section" id="fixture">
+  <div class="fx-stars" id="fxStars" aria-hidden="true"></div>
+  <div class="fx-candle" style="left:6%; top:16%;"></div>
+  <div class="fx-candle" style="left:92%; top:20%; animation-delay:1.4s;"></div>
+  <div class="fx-candle" style="left:12%; top:78%; animation-delay:2.8s;"></div>
+  <div class="fx-candle" style="left:88%; top:74%; animation-delay:.7s;"></div>
+  <div class="fx-snitch" aria-hidden="true">
+    <svg viewBox="0 0 100 100">
+      <ellipse cx="50" cy="50" rx="10" ry="10" fill="#f0d488" stroke="#8a6c2c" stroke-width="2"/>
+      <path d="M40 45 C20 25, 5 30, 2 45 C5 55, 22 55, 40 52 Z" fill="#f2e6c6" opacity="0.85"/>
+      <path d="M60 45 C80 25, 95 30, 98 45 C95 55, 78 55, 60 52 Z" fill="#f2e6c6" opacity="0.85"/>
+    </svg>
+  </div>
+
+  <div class="wrap" style="position:relative; z-index:2;">
     <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 10</p>
-      <h2>Cartas Tácticas</h2>
-      <p class="lede">Una carta al azar por ronda, por equipo. Se usa ya o se pierde para siempre. Pasá el mouse (o tocá) para revelar el efecto.</p>
+      <p class="eyebrow" style="justify-content:center;">Torneo 2026</p>
+      <h2>Fixture y Tabla de Posiciones</h2>
+      <p class="lede">El cronograma completo de fechas y el estado actual de la Copa de Hogwarts.</p>
     </div>
-    <div class="cards-grid reveal">
 
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2 4 6v6c0 5.2 3.6 8.3 8 9 4.4-.7 8-3.8 8-9V6l-8-4Z"/></svg>
-            <div class="tname">Ataque Total</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>Todos los Cazadores reciben +2 Precisión durante toda la ronda.</p></div>
+    <div class="fixture-grid reveal">
+
+      <div class="fx-card" data-date="2026-07-25">
+        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 1 · 25/7/2026</span><span>Visitante</span></div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
+        </div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
         </div>
       </div>
 
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M4 13h16M8 9V6a4 4 0 0 1 8 0v3"/></svg>
-            <div class="tname">Muralla</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>El Guardián recibe +4 Reflejos para defender lanzamientos durante esa ronda.</p></div>
+      <div class="fx-card" data-date="2026-08-08">
+        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 2 · 8/8/2026</span><span>Visitante</span></div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
+        </div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
         </div>
       </div>
 
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 12h9M13 6l7 6-7 6"/></svg>
-            <div class="tname">Juego Brusco</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>Los Golpeadores reciben +2 Fuerza durante toda la ronda.</p></div>
+      <div class="fx-card" data-date="2026-08-15">
+        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 3 · 15/8/2026</span><span>Visitante</span></div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
+        </div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
         </div>
       </div>
 
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 20 17 6M13 3l1.5 1.5M18.5 8.5 20 10"/></svg>
-            <div class="tname">Formación Ofensiva</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>Todos los Cazadores reciben +1 Velocidad y +1 Precisión hasta finalizar la ronda.</p></div>
+      <div class="fx-card" data-date="2026-08-22">
+        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 4 · 22/8/2026</span><span>Visitante</span></div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
+        </div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
         </div>
       </div>
 
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3 4 7v6c0 5 3.5 7.5 8 8 4.5-.5 8-3 8-8V7l-8-4Z"/></svg>
-            <div class="tname">Formación Defensiva</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>El Guardián y ambos Golpeadores reciben +2 Reflejos durante toda la ronda.</p></div>
+      <div class="fx-card" data-date="2026-08-29">
+        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 5 · 29/8/2026</span><span>Visitante</span></div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
+        </div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
         </div>
       </div>
 
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/></svg>
-            <div class="tname">Todos por el Buscador</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>Si el equipo eligió la estrategia Proteger al Buscador, este recibe una pista adicional. Si no, la carta no tiene efecto.</p></div>
+      <div class="fx-card" data-date="2026-09-05">
+        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 6 · 5/9/2026</span><span>Visitante</span></div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
         </div>
-      </div>
-
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 21s-7-4.5-9-9c-1.3-2.8.2-6 3.3-6.6C8.4 4.9 10.6 6 12 8c1.4-2 3.6-3.1 5.7-2.6C20.8 6 22.3 9.2 21 12c-2 4.5-9 9-9 9Z"/></svg>
-            <div class="tname">Motivación del Capitán</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>Todos los jugadores del equipo reciben +1 a todas las tiradas durante esa ronda.</p></div>
-        </div>
-      </div>
-
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 20 17 6M13 3l1.5 1.5M18.5 8.5 20 10M6 17l1 1"/></svg>
-            <div class="tname">Cambio de Ritmo</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>Todos los Cazadores reciben +2 Velocidad durante la ronda.</p></div>
-        </div>
-      </div>
-
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M4 13h16M8 9V6a4 4 0 0 1 8 0v3"/></svg>
-            <div class="tname">Defensa Férrea</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>El Guardián obtiene +2 Reflejos adicionales, solo para resolver lanzamientos al aro. Se acumula con otros modificadores.</p></div>
-        </div>
-      </div>
-
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 12h9M13 6l7 6-7 6"/></svg>
-            <div class="tname">Francotirador</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>Un Golpeador recibe +3 Fuerza en su próximo ataque con Bludger. El efecto termina al usarse una vez.</p></div>
-        </div>
-      </div>
-
-      <div class="tcard" tabindex="0">
-        <div class="tcard-inner">
-          <div class="tcard-face tcard-front">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.8 2.8M16.2 16.2 19 19M19 5l-2.8 2.8M7.8 16.2 5 19"/><circle cx="12" cy="12" r="3"/></svg>
-            <div class="tname">Riesgo Calculado</div>
-            <div class="tap">Ver efecto</div>
-          </div>
-          <div class="tcard-face tcard-back"><div class="tname">Efecto</div><p>Un jugador puede repetir una tirada esa ronda. El segundo resultado reemplaza al primero, incluso si es menor.</p></div>
+        <div class="fx-match">
+          <span class="fx-team"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
+          <span class="fx-vs">vs.</span>
+          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
         </div>
       </div>
 
     </div>
+
+    <div class="standings-head reveal">
+      <h3>Tabla de Posiciones</h3>
+    </div>
+    <div class="standings-list reveal">
+
+      <div class="sr-row sr-leader">
+        <div class="sr-rank">1</div>
+        <div class="sr-team"><i class="house-chip" style="--house-color:var(--scarlet);"></i><span>Gryffindor</span></div>
+        <div class="sr-stats">
+          <div><b>1</b><small>PJ</small></div>
+          <div><b>1</b><small>PG</small></div>
+          <div><b>0</b><small>PE</small></div>
+          <div><b>0</b><small>PP</small></div>
+        </div>
+        <div class="sr-pts"><b>150</b><small>Pts</small></div>
+      </div>
+
+      <div class="sr-row sr-leader">
+        <div class="sr-rank">2</div>
+        <div class="sr-team"><i class="house-chip" style="--house-color:var(--forest);"></i><span>Slytherin</span></div>
+        <div class="sr-stats">
+          <div><b>1</b><small>PJ</small></div>
+          <div><b>1</b><small>PG</small></div>
+          <div><b>0</b><small>PE</small></div>
+          <div><b>0</b><small>PP</small></div>
+        </div>
+        <div class="sr-pts"><b>150</b><small>Pts</small></div>
+      </div>
+
+      <div class="sr-row">
+        <div class="sr-rank">3</div>
+        <div class="sr-team"><i class="house-chip" style="--house-color:var(--azure);"></i><span>Ravenclaw</span></div>
+        <div class="sr-stats">
+          <div><b>1</b><small>PJ</small></div>
+          <div><b>0</b><small>PG</small></div>
+          <div><b>0</b><small>PE</small></div>
+          <div><b>1</b><small>PP</small></div>
+        </div>
+        <div class="sr-pts"><b>0</b><small>Pts</small></div>
+      </div>
+
+      <div class="sr-row">
+        <div class="sr-rank">4</div>
+        <div class="sr-team"><i class="house-chip" style="--house-color:var(--gold);"></i><span>Hufflepuff</span></div>
+        <div class="sr-stats">
+          <div><b>1</b><small>PJ</small></div>
+          <div><b>0</b><small>PG</small></div>
+          <div><b>0</b><small>PE</small></div>
+          <div><b>1</b><small>PP</small></div>
+        </div>
+        <div class="sr-pts"><b>0</b><small>Pts</small></div>
+      </div>
+
+    </div>
+    <p class="standings-legend reveal">PJ: Partidos Jugados · PG: Partidos Ganados · PE: Partidos Empatados · PP: Partidos Perdidos · PTS: Puntos</p>
   </div>
 </section>
 
@@ -1018,16 +1262,15 @@ body{ padding-bottom: 44px; }
 <section class="section on-parchment" id="arbitro">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 11</p>
+      <p class="eyebrow" style="justify-content:center;">§ 8</p>
       <h2>El Rol Máster</h2>
       <p class="lede">Dirige, arbitra y narra. Su palabra resuelve lo que el reglamento no contempla.</p>
     </div>
     <div class="rm-grid reveal">
       <ul class="rm-list">
         <li>Lleva el marcador y controla la posesión de la Quaffle.</li>
-        <li>Aplica el modificador de cada ronda y reparte una Carta Táctica al azar a cada equipo.</li>
-        <li>Resuelve todas las acciones enfrentadas y aplica las DC cuando una acción no tiene oposición.</li>
-        <li>Elige la ubicación secreta de la Snitch al comienzo de cada ronda y entrega las pistas correspondientes.</li>
+        <li>Resuelve todas las tiradas enfrentadas de cada turno.</li>
+        <li>Elige la ubicación secreta de la Snitch al comienzo de cada ronda y entrega la pista correspondiente después de los turnos.</li>
         <li>Resuelve cualquier situación no contemplada expresamente por este reglamento.</li>
         <li>Narra brevemente el resultado de las acciones para mantener el ritmo del partido.</li>
       </ul>
@@ -1054,12 +1297,20 @@ body{ padding-bottom: 44px; }
 </footer>
 
 <!-- ============ DICE ROLLER MODAL ============ -->
+<span id="dado" aria-hidden="true" style="position:relative;top:-70px;display:block;"></span>
 <div class="dice-modal-overlay" id="diceOverlay" aria-hidden="true">
   <div class="dice-modal framed" role="dialog" aria-modal="true" aria-labelledby="diceTitle">
     <div class="c2"></div>
     <button class="dice-close" id="diceClose" aria-label="Cerrar lanzador de dados">×</button>
     <p class="eyebrow" style="justify-content:center;">Las Cuatro Casas</p>
     <h3 id="diceTitle">Lanzador de d20</h3>
+    <div class="training-toggle">
+      <label class="switch">
+        <input type="checkbox" id="trainingModeToggle">
+        <span class="slider"></span>
+      </label>
+      <span class="training-label">Modo entrenamiento</span>
+    </div>
     <div class="dice-stage" id="diceStage">
       <svg id="diceSvg" viewBox="0 0 100 100" aria-hidden="true">
         <polygon class="dice-face" points="50,4 92,28 50,50" fill="#c9a13b"/>
@@ -1072,6 +1323,7 @@ body{ padding-bottom: 44px; }
       </svg>
       <div class="dice-result" id="diceResult">–</div>
     </div>
+    <ul class="dice-history" id="diceHistory"></ul>
     <div class="dice-houses" aria-hidden="true">
       <span style="background:#7a1620;"></span>
       <span style="background:#1c4a37;"></span>
@@ -1081,6 +1333,21 @@ body{ padding-bottom: 44px; }
     <button class="btn solid" id="diceRollBtn">Lanzar</button>
   </div>
 </div>
+
+<button class="dice-fab" id="diceFab" aria-label="Abrir lanzador de dados">
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <g class="dice-fab-spin">
+      <polygon points="50,4 92,28 92,72 50,96 8,72 8,28" fill="none" stroke="currentColor" stroke-width="5"/>
+      <polygon points="50,4 92,28 50,50" fill="currentColor" opacity=".12"/>
+      <polygon points="50,4 8,28 50,50" fill="currentColor" opacity=".06"/>
+      <polygon points="92,28 92,72 50,50" fill="currentColor" opacity=".09"/>
+      <polygon points="8,28 8,72 50,50" fill="currentColor" opacity=".03"/>
+      <polygon points="50,96 92,72 50,50" fill="currentColor" opacity=".14"/>
+      <polygon points="50,96 8,72 50,50" fill="currentColor" opacity=".07"/>
+    </g>
+    <text x="50" y="56" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="20" font-weight="700" fill="currentColor">D20</text>
+  </svg>
+</button>
 
 <div class="credit-bar">
   <span class="lbl">Creado por</span>
@@ -1101,6 +1368,56 @@ body{ padding-bottom: 44px; }
     s.style.top = Math.random()*100+'%';
     s.style.animationDelay = (Math.random()*4)+'s';
     stars.appendChild(s);
+  }
+})();
+
+// star field (sección Fixture)
+(function(){
+  const stars = document.getElementById('fxStars');
+  if(!stars) return;
+  const n = 40;
+  for(let i=0;i<n;i++){
+    const s = document.createElement('span');
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.animationDelay = (Math.random()*4)+'s';
+    stars.appendChild(s);
+  }
+})();
+
+// ============ FIXTURE: fechas jugadas y próxima fecha ============
+(function(){
+  const cards = document.querySelectorAll('.fx-card[data-date]');
+  if(!cards.length) return;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let nextCard = null;
+  let nextDate = null;
+
+  cards.forEach(card => {
+    const parts = card.dataset.date.split('-').map(Number);
+    const cardDate = new Date(parts[0], parts[1] - 1, parts[2]);
+
+    if(cardDate < today){
+      card.classList.add('fx-played');
+      const tag = document.createElement('span');
+      tag.className = 'fx-played-tag';
+      tag.textContent = 'Jugada';
+      card.appendChild(tag);
+    } else if(!nextDate || cardDate < nextDate){
+      nextDate = cardDate;
+      nextCard = card;
+    }
+  });
+
+  if(nextCard){
+    nextCard.classList.add('fx-next');
+    const tag = document.createElement('span');
+    tag.className = 'fx-next-tag';
+    tag.textContent = 'Próxima fecha';
+    nextCard.appendChild(tag);
   }
 })();
 
@@ -1132,12 +1449,15 @@ document.querySelectorAll('.tcard').forEach(card => {
 (function(){
   const overlay = document.getElementById('diceOverlay');
   const openLink = document.getElementById('diceNavLink');
+  const diceFab = document.getElementById('diceFab');
   const closeBtn = document.getElementById('diceClose');
   const rollBtn = document.getElementById('diceRollBtn');
   const diceSvg = document.getElementById('diceSvg');
   const faces = document.querySelectorAll('.dice-face');
   const outline = document.getElementById('diceOutline');
   const resultEl = document.getElementById('diceResult');
+  const historyEl = document.getElementById('diceHistory');
+  const trainingToggle = document.getElementById('trainingModeToggle');
 
   const houses = [
     { name:'Gryffindor', fill:'#7a1620', stroke:'#e0a1a8' },
@@ -1145,8 +1465,176 @@ document.querySelectorAll('.tcard').forEach(card => {
     { name:'Ravenclaw',  fill:'#1b2c56', stroke:'#9db3e8' },
     { name:'Hufflepuff', fill:'#c9a13b', stroke:'#f0d488' }
   ];
+  const TRAINING_STYLE = { fill:'#d9d9d9', stroke:'#8a8a8a' };
+
   let rolling = false;
   let colorTimer = null;
+  let cooldownTimer = null;
+  let trainingMode = false;
+
+  const COOLDOWN_MS = 3 * 60 * 1000; // 3 minutos
+  const LS_HISTORY = 'hetneDiceHistory';
+  const LS_TRAINING = 'hetneDiceTrainingMode';
+  const LS_LAST_NORMAL_ROLL = 'hetneDiceLastNormalRoll'; // solo tiros SIN modo entrenamiento
+  const MAX_HISTORY = 3;
+
+  function formatTimestamp(date){
+    const pad = (n) => String(n).padStart(2, '0');
+    const d = pad(date.getDate());
+    const m = pad(date.getMonth() + 1);
+    const y = date.getFullYear();
+    const h = pad(date.getHours());
+    const min = pad(date.getMinutes());
+    const s = pad(date.getSeconds());
+    return `Tirada el ${d}/${m}/${y} a las ${h}:${min}:${s}`;
+  }
+
+  function formatCountdown(ms){
+    const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+    const mm = Math.floor(totalSeconds / 60);
+    const ss = String(totalSeconds % 60).padStart(2, '0');
+    return `Esperá ${mm}:${ss}`;
+  }
+
+  function houseByName(name){
+    return houses.find(h => h.name === name) || houses[0];
+  }
+
+  function getHistory(){
+    try {
+      const raw = JSON.parse(localStorage.getItem(LS_HISTORY) || '[]');
+      return Array.isArray(raw) ? raw : [];
+    } catch(e){
+      return [];
+    }
+  }
+
+  function renderHistory(history){
+    historyEl.innerHTML = '';
+    history.slice(0, MAX_HISTORY).forEach(entry => {
+      const li = document.createElement('li');
+      const val = document.createElement('span');
+      val.className = 'hv';
+      val.textContent = entry.value;
+      const label = document.createElement('span');
+      label.textContent = formatTimestamp(new Date(entry.at));
+      li.appendChild(val);
+      li.appendChild(label);
+      historyEl.appendChild(li);
+    });
+  }
+
+  function addToHistory(value, houseName, at){
+    const history = getHistory();
+    history.unshift({ value, house: houseName, at });
+    const trimmed = history.slice(0, MAX_HISTORY);
+    localStorage.setItem(LS_HISTORY, JSON.stringify(trimmed));
+    renderHistory(trimmed);
+  }
+
+  // Pinta el dado: colores de las casas normalmente, o gris claro punteado en Modo entrenamiento.
+  function applyDiceStyle(h){
+    if(trainingMode){
+      faces.forEach(f => f.setAttribute('fill', TRAINING_STYLE.fill));
+      outline.setAttribute('stroke', TRAINING_STYLE.stroke);
+      outline.setAttribute('stroke-dasharray', '6,5');
+    } else {
+      faces.forEach(f => f.setAttribute('fill', h.fill));
+      outline.setAttribute('stroke', h.stroke);
+      outline.removeAttribute('stroke-dasharray');
+    }
+  }
+
+  function lastHouseOrDefault(){
+    const history = getHistory();
+    return history.length > 0 ? houseByName(history[0].house) : houses[0];
+  }
+
+  function getLastNormalRoll(){
+    return parseInt(localStorage.getItem(LS_LAST_NORMAL_ROLL) || '0', 10);
+  }
+  function setLastNormalRoll(ts){
+    localStorage.setItem(LS_LAST_NORMAL_ROLL, String(ts));
+  }
+
+  function startCooldown(lastRoll){
+    if(cooldownTimer) clearInterval(cooldownTimer);
+    rollBtn.disabled = true;
+
+    function tick(){
+      const elapsed = Date.now() - lastRoll;
+      const remaining = COOLDOWN_MS - elapsed;
+      if(remaining <= 0){
+        clearInterval(cooldownTimer);
+        cooldownTimer = null;
+        rollBtn.disabled = false;
+        rollBtn.textContent = 'Lanzar';
+      } else {
+        rollBtn.textContent = formatCountdown(remaining);
+      }
+    }
+    tick();
+    cooldownTimer = setInterval(tick, 250);
+  }
+
+  function clearCooldownUI(){
+    if(cooldownTimer){ clearInterval(cooldownTimer); cooldownTimer = null; }
+    rollBtn.disabled = false;
+    rollBtn.textContent = 'Lanzar';
+  }
+
+  function restoreState(){
+    trainingMode = localStorage.getItem(LS_TRAINING) === '1';
+    trainingToggle.checked = trainingMode;
+
+    const history = getHistory();
+    renderHistory(history);
+    historyEl.classList.toggle('hidden', trainingMode);
+
+    if(history.length > 0){
+      resultEl.textContent = history[0].value;
+    }
+    applyDiceStyle(lastHouseOrDefault());
+
+    if(trainingMode){
+      // Modo entrenamiento: sin timer, sin bloqueo del botón y sin historial visible.
+      clearCooldownUI();
+      return;
+    }
+
+    const lastNormal = getLastNormalRoll();
+    if(lastNormal){
+      const elapsed = Date.now() - lastNormal;
+      if(elapsed < COOLDOWN_MS){
+        startCooldown(lastNormal);
+        return;
+      }
+    }
+    clearCooldownUI();
+  }
+
+  trainingToggle.addEventListener('change', () => {
+    trainingMode = trainingToggle.checked;
+    localStorage.setItem(LS_TRAINING, trainingMode ? '1' : '0');
+    applyDiceStyle(lastHouseOrDefault());
+    historyEl.classList.toggle('hidden', trainingMode);
+
+    if(trainingMode){
+      clearCooldownUI();
+      return;
+    }
+
+    // Al volver del modo entrenamiento, se restaura el timer original (si lo había).
+    const lastNormal = getLastNormalRoll();
+    if(lastNormal){
+      const elapsed = Date.now() - lastNormal;
+      if(elapsed < COOLDOWN_MS){
+        startCooldown(lastNormal);
+        return;
+      }
+    }
+    clearCooldownUI();
+  });
 
   function openModal(){
     overlay.classList.add('open');
@@ -1159,20 +1647,38 @@ document.querySelectorAll('.tcard').forEach(card => {
     overlay.classList.remove('open');
     overlay.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
+    if(window.location.hash === '#dado'){
+      window.history.pushState('', document.title, window.location.pathname + window.location.search);
+    }
   }
 
-  openLink.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+  // El dado tiene su propia URL (#dado): se puede abrir directamente con un link.
+  function goToDice(e){
+    if(e) e.preventDefault();
+    if(window.location.hash !== '#dado'){
+      window.history.pushState(null, '', '#dado');
+    }
+    openModal();
+  }
+  openLink.addEventListener('click', goToDice);
+  if(diceFab) diceFab.addEventListener('click', goToDice);
+  window.addEventListener('hashchange', () => {
+    if(window.location.hash === '#dado'){
+      openModal();
+    } else if(overlay.classList.contains('open')){
+      closeModal();
+    }
+  });
+  if(window.location.hash === '#dado'){
+    openModal();
+  }
+
   closeBtn.addEventListener('click', closeModal);
   overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
 
-  function setHouseColor(h){
-    faces.forEach(f => f.setAttribute('fill', h.fill));
-    outline.setAttribute('stroke', h.stroke);
-  }
-
   rollBtn.addEventListener('click', () => {
-    if(rolling) return;
+    if(rolling || (!trainingMode && rollBtn.disabled)) return;
     rolling = true;
     rollBtn.disabled = true;
     resultEl.textContent = '···';
@@ -1182,24 +1688,36 @@ document.querySelectorAll('.tcard').forEach(card => {
     diceSvg.classList.add('is-rolling');
 
     let i = 0;
-    setHouseColor(houses[0]);
+    applyDiceStyle(houses[0]);
     colorTimer = setInterval(() => {
       i++;
-      setHouseColor(houses[i % houses.length]);
+      applyDiceStyle(houses[i % houses.length]);
     }, 95);
 
     setTimeout(() => {
       clearInterval(colorTimer);
       diceSvg.classList.remove('is-rolling');
       const finalHouse = houses[Math.floor(Math.random()*houses.length)];
-      setHouseColor(finalHouse);
+      applyDiceStyle(finalHouse);
       const value = Math.floor(Math.random()*20) + 1;
       resultEl.textContent = value;
       resultEl.classList.add('pop');
-      rollBtn.disabled = false;
+
+      const now = Date.now();
+
       rolling = false;
+      if(trainingMode){
+        // En Modo entrenamiento: no se guarda como registro en el historial ni se ve afectado el timer.
+        clearCooldownUI();
+      } else {
+        addToHistory(value, finalHouse.name, now);
+        setLastNormalRoll(now);
+        startCooldown(now);
+      }
     }, 1120);
   });
+
+  restoreState();
 })();
 
 </script>
