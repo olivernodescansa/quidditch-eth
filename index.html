@@ -3,1723 +3,1580 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Torneo de Quidditch Hogwarts HETNE — Copa de Hogwarts</title>
-<meta name="description" content="Reglamento oficial del Torneo de Quidditch de Rol — Sistema Copa de Hogwarts.">
+<title>Bitácora de Oliver Wood</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Homemade+Apple&display=swap" rel="stylesheet">
 <style>
-/* ============ TOKENS ============ */
-:root{
-  --ink:#0a0b0f;
-  --ink-soft:#14161f;
-  --ink-line:#2a2c38;
-  --parchment:#efe2bf;
-  --parchment-2:#e2cf9c;
-  --parchment-shadow:#c9b378;
-  --gold:#c9a13b;
-  --gold-light:#f0d488;
-  --gold-dim:#8a6c2c;
-  --bronze:#7c5a2e;
-  --scarlet:#7a1620;
-  --scarlet-bright:#a3232f;
-  --forest:#1c4a37;
-  --azure:#1b2c56;
-  --ink-text:#241c10;
-  --cream-text:#f2e6c6;
-  --muted-ink:#5a4c2f;
-  --muted-cream:#c9bd9a;
-  --font-display:'Cinzel Decorative', serif;
-  --font-head:'Cinzel', serif;
-  --font-body:'Cormorant Garamond', serif;
-  --font-mono:'JetBrains Mono', monospace;
-  --frame: 2px solid var(--gold);
-  --radius: 2px;
-}
-
-*{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  margin:0;
-  background:var(--ink);
-  color:var(--cream-text);
-  font-family:var(--font-body);
-  font-size:19px;
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
-img,svg{display:block;max-width:100%;}
-a{color:inherit;}
-h1,h2,h3,h4{margin:0;font-weight:600;}
-p{margin:0 0 1em 0;}
-.eyebrow{
-  font-family:var(--font-mono);
-  font-size:12.5px;
-  letter-spacing:.32em;
-  text-transform:uppercase;
-  color:var(--gold-light);
-  display:inline-flex;
-  align-items:center;
-  gap:.6em;
-}
-.eyebrow::before{content:"";width:26px;height:1px;background:currentColor;opacity:.7;}
-.on-parchment .eyebrow{color:var(--scarlet);}
-.on-parchment .eyebrow::before{background:var(--scarlet);}
-
-:focus-visible{outline:2px solid var(--gold-light);outline-offset:3px;}
-
-/* ============ LAYOUT SHELL ============ */
-.section{
-  position:relative;
-  padding: clamp(64px, 10vw, 128px) 0;
-  overflow:hidden;
-}
-.on-ink{background:var(--ink);}
-.on-parchment{
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.10), transparent 45%),
-    linear-gradient(180deg, var(--parchment) 0%, var(--parchment-2) 100%);
-  color:var(--ink-text);
-}
-.wrap{
-  max-width:1120px;
-  margin:0 auto;
-  padding:0 28px;
-  position:relative;
-  z-index:2;
-}
-.section-head{
-  text-align:center;
-  max-width:720px;
-  margin:0 auto clamp(36px,6vw,64px) auto;
-}
-.section-head h2{
-  font-family:var(--font-head);
-  font-size:clamp(30px,4.4vw,48px);
-  letter-spacing:.02em;
-  margin-top:.4em;
-  color:var(--gold-light);
-}
-.on-parchment .section-head h2{color:var(--scarlet);}
-.section-head .lede{
-  margin-top:16px;
-  font-size:20px;
-  font-style:italic;
-  color:var(--muted-cream);
-}
-.on-parchment .section-head .lede{color:var(--muted-ink);}
-
-.ornament-rule{
-  width:100%;
-  height:14px;
-  margin: 8px auto 0 auto;
-  opacity:.85;
-}
-
-/* drop cap */
-.dropcap p:first-of-type::first-letter{
-  font-family:var(--font-display);
-  float:left;
-  font-size:3.6em;
-  line-height:.78;
-  padding:.05em .12em 0 0;
-  color:var(--gold);
-}
-.on-parchment .dropcap p:first-of-type::first-letter{color:var(--scarlet);}
-
-/* corner filigree frame for cards / panels */
-.framed{
-  position:relative;
-  border: var(--frame);
-  padding: 28px 26px;
-  background: rgba(0,0,0,.18);
-}
-.on-parchment .framed{ background: rgba(255,255,255,.28); border-color:var(--scarlet); }
-.framed::before,.framed::after,
-.framed .c2::before,.framed .c2::after{
-  content:"";
-  position:absolute;
-  width:16px;height:16px;
-  border: 2px solid var(--gold-light);
-  pointer-events:none;
-}
-.on-parchment .framed::before,.on-parchment .framed::after,
-.on-parchment .framed .c2::before,.on-parchment .framed .c2::after{ border-color:var(--scarlet); }
-.framed::before{ top:-2px; left:-2px; border-right:none; border-bottom:none; }
-.framed::after{ top:-2px; right:-2px; border-left:none; border-bottom:none; }
-.framed .c2{position:absolute;inset:0;pointer-events:none;}
-.framed .c2::before{ bottom:-2px; left:-2px; border-right:none; border-top:none; }
-.framed .c2::after{ bottom:-2px; right:-2px; border-left:none; border-top:none; }
-
-/* reveal on scroll */
-.reveal{ opacity:0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
-.reveal.is-visible{ opacity:1; transform:none; }
-
-/* ============ NAV ============ */
-.nav{
-  position:fixed; top:0; left:0; right:0; z-index:50;
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 14px 28px;
-  background: linear-gradient(180deg, rgba(10,11,15,.92), rgba(10,11,15,.65));
-  border-bottom:1px solid var(--ink-line);
-  backdrop-filter: blur(6px);
-}
-.nav-mark{
-  font-family:var(--font-head);
-  letter-spacing:.14em;
-  font-size:15px;
-  color:var(--gold-light);
-  text-decoration:none;
-  display:flex; align-items:center; gap:10px;
-}
-.nav-mark svg{width:22px;height:22px;}
-.nav-links{ display:flex; gap:22px; list-style:none; margin:0; padding:0; }
-.nav-links a{
-  font-family:var(--font-mono);
-  font-size:11.5px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  text-decoration:none;
-  color:var(--muted-cream);
-  transition:color .2s ease;
-}
-.nav-links a:hover{color:var(--gold-light);}
-.nav-toggle{display:none;background:none;border:1px solid var(--gold-dim);color:var(--gold-light);font-family:var(--font-mono);padding:8px 12px;font-size:11px;letter-spacing:.1em;}
-@media (max-width:760px){
-  .nav-links{position:fixed;top:56px;left:0;right:0;flex-direction:column;background:var(--ink-soft);padding:18px 28px;border-bottom:1px solid var(--ink-line);gap:16px;transform:translateY(-140%);transition:transform .3s ease;}
-  .nav-links.open{transform:translateY(0);}
-  .nav-toggle{display:block;}
-}
-
-/* ============ HERO ============ */
-.hero{
-  min-height:100svh;
-  display:flex; align-items:center; justify-content:center;
-  text-align:center;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(201,161,59,.14), transparent 55%),
-    radial-gradient(ellipse at 15% 85%, rgba(122,22,32,.18), transparent 50%),
-    radial-gradient(ellipse at 85% 80%, rgba(27,44,86,.22), transparent 50%),
-    var(--ink);
-  position:relative;
-  padding-top:80px;
-}
-.hero-stars{position:absolute;inset:0;z-index:0;}
-.hero-stars span{
-  position:absolute; width:2px;height:2px;background:var(--gold-light);border-radius:50%;
-  opacity:.5; animation: twinkle 4s ease-in-out infinite;
-}
-@keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.85;} }
-
-.candle{
-  position:absolute; width:6px; height:34px;
-  background: linear-gradient(180deg,#efe6c9,#cbb884);
-  border-radius:2px;
-  box-shadow: 0 0 0 rgba(255,200,90,0);
-  animation: bob 6s ease-in-out infinite;
-}
-.candle::after{
-  content:"";
-  position:absolute; top:-13px; left:50%; transform:translateX(-50%);
-  width:9px; height:16px;
-  background: radial-gradient(circle at 50% 30%, #fff2c2, #f0b23c 55%, transparent 75%);
-  border-radius:50% 50% 45% 45%;
-  filter: blur(.3px);
-  animation: flicker 2.4s ease-in-out infinite;
-}
-@keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
-@keyframes flicker{ 0%,100%{opacity:1;transform:translateX(-50%) scale(1);} 45%{opacity:.75;transform:translateX(-50%) scale(.92) rotate(-2deg);} 60%{opacity:1;transform:translateX(-50%) scale(1.05) rotate(2deg);} }
-
-.snitch{
-  position:absolute; width:26px; height:26px; z-index:3;
-  animation: fly 13s ease-in-out infinite;
-  will-change: transform;
-}
-.snitch svg{width:100%;height:100%;}
-@keyframes fly{
-  0%{ transform: translate(-10vw, 10vh) rotate(0deg); }
-  20%{ transform: translate(20vw, -6vh) rotate(40deg); }
-  40%{ transform: translate(38vw, 12vh) rotate(-25deg); }
-  60%{ transform: translate(15vw, 22vh) rotate(15deg); }
-  80%{ transform: translate(-14vw, 4vh) rotate(-30deg); }
-  100%{ transform: translate(-10vw, 10vh) rotate(0deg); }
-}
-
-.hero-inner{ position:relative; z-index:2; padding:0 24px; max-width:900px; }
-.hero-crestrow{ display:flex; justify-content:center; gap:18px; margin-bottom:26px; }
-.hero-crestrow span{ width:9px;height:9px;border-radius:50%; }
-.hero-crestrow .g1{background:var(--scarlet-bright);} .hero-crestrow .g2{background:var(--forest);}
-.hero-crestrow .g3{background:var(--azure);} .hero-crestrow .g4{background:#c9a13b;}
-
-.hero h1{
-  font-family:var(--font-display);
-  font-weight:700;
-  font-size:clamp(38px, 8vw, 92px);
-  line-height:1.02;
-  letter-spacing:.01em;
-  background: linear-gradient(180deg, #fbe9b3 0%, var(--gold) 45%, #8a6c2c 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  text-shadow: 0 0 60px rgba(201,161,59,.25);
-  margin: 10px 0;
-}
-.hero h1 small{
-  display:block;
-  font-family:var(--font-head);
-  font-size:.32em;
-  letter-spacing:.5em;
-  font-weight:500;
-  color: var(--cream-text);
-  -webkit-text-fill-color: var(--cream-text);
-  margin-bottom:.3em;
-}
-.hero .tagline{
-  font-family:var(--font-body);
-  font-style:italic;
-  font-size:clamp(17px,2.2vw,22px);
-  color:var(--muted-cream);
-  max-width:560px;
-  margin:18px auto 34px auto;
-}
-.hero-ctas{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
-.btn{
-  font-family:var(--font-mono);
-  font-size:12.5px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  text-decoration:none;
-  padding:14px 28px;
-  border:1px solid var(--gold);
-  color:var(--gold-light);
-  background:transparent;
-  transition: all .25s ease;
-  cursor:pointer;
-}
-.btn:hover{ background:var(--gold); color:var(--ink); }
-.btn.solid{ background:var(--gold); color:var(--ink); }
-.btn.solid:hover{ background:var(--gold-light); }
-
-.scrollcue{
-  position:absolute; bottom:56px; left:50%; transform:translateX(-50%);
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  color:var(--muted-cream); font-family:var(--font-mono); font-size:10px; letter-spacing:.2em;
-}
-.scrollcue .line{width:1px;height:34px;background:linear-gradient(var(--gold),transparent); animation: pulse 2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:.3;}50%{opacity:1;}}
-
-/* ============ OBJETIVO ============ */
-.objetivo-grid{
-  display:grid; grid-template-columns: 1.2fr 1fr; gap:48px; align-items:start;
-}
-@media (max-width:820px){ .objetivo-grid{grid-template-columns:1fr;} }
-.score-panel{ text-align:center; }
-.score-row{ display:flex; justify-content:center; gap:28px; margin-bottom:22px; flex-wrap:wrap;}
-.score-item{ min-width:150px; }
-.score-item .num{
-  font-family:var(--font-mono); font-weight:700; font-size:44px; color:var(--scarlet); line-height:1;
-}
-.score-item .lbl{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-ink); margin-top:8px;}
-.end-conditions{ list-style:none; margin:18px 0 0 0; padding:0; text-align:left; }
-.end-conditions li{ padding:10px 0 10px 26px; border-top:1px solid var(--parchment-shadow); position:relative; font-size:17px;}
-.end-conditions li:first-child{border-top:none;}
-.end-conditions li::before{ content:"✦"; position:absolute; left:0; color:var(--scarlet); }
-
-/* ============ EQUIPOS ============ */
-.team-cols{ display:grid; grid-template-columns:1fr 1fr; gap:36px; }
-@media (max-width:760px){ .team-cols{grid-template-columns:1fr;} }
-.roster-title{ font-family:var(--font-head); font-size:15px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-light); margin-bottom:18px; text-align:center;}
-.pos-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
-.pos-card{
-  border:1px solid var(--ink-line); padding:18px 14px; text-align:center;
-  background:rgba(255,255,255,.02);
-  transition: border-color .2s ease, transform .2s ease;
-}
-.pos-card:hover{ border-color:var(--gold); transform:translateY(-3px); }
-.pos-card svg{ width:30px;height:30px; margin:0 auto 10px auto; color:var(--gold-light); }
-.pos-card .n{ font-family:var(--font-mono); font-size:22px; color:var(--gold-light); }
-.pos-card .t{ font-family:var(--font-head); font-size:14px; margin-top:4px; }
-.pos-card .d{ font-size:14.5px; color:var(--muted-cream); margin-top:6px; }
-.subs-note{ margin-top:18px; padding:16px; border-left:2px solid var(--gold); background:rgba(201,161,59,.06); font-size:16.5px; }
-
-/* ============ CAPITAN LIST ============ */
-.duty-list{ list-style:none; margin:0; padding:0; display:grid; gap:0; }
-.duty-list li{
-  display:flex; gap:18px; align-items:flex-start;
-  padding:18px 0; border-top:1px solid var(--parchment-shadow);
-}
-.duty-list li:first-child{border-top:none;}
-.duty-list .mark{ font-family:var(--font-display); font-size:22px; color:var(--scarlet); flex:none; width:34px; }
-
-/* ============ ATRIBUTOS ============ */
-.attr-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:18px; }
-.attr-card{
-  border:1px solid var(--ink-line); padding:22px 18px; position:relative;
-  background: linear-gradient(180deg, rgba(201,161,59,.05), transparent);
-}
-.attr-card h4{ font-family:var(--font-head); color:var(--gold-light); font-size:19px; letter-spacing:.03em;}
-.attr-card p{ font-size:15.5px; color:var(--muted-cream); margin-top:8px; margin-bottom:0;}
-
-/* ============ DADOS / DC LADDER ============ */
-.dice-wrap{ display:grid; grid-template-columns: 0.9fr 1.1fr; gap:52px; align-items:center; }
-@media (max-width:820px){ .dice-wrap{grid-template-columns:1fr;} }
-.d20{ width:150px; height:150px; margin:0 auto; animation: spin 9s linear infinite; }
-@media (prefers-reduced-motion: reduce){ .d20{animation:none;} .snitch{animation:none;} .candle,.candle::after{animation:none;} .fx-snitch{animation:none;} .fx-candle,.fx-candle::after{animation:none;} .fx-card.fx-next{animation:none;} .dice-fab-spin{animation:none;} }
-@keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
-.formula{
-  font-family:var(--font-mono); text-align:center; font-size:clamp(18px,3vw,26px);
-  color:var(--scarlet); margin-top:20px; letter-spacing:.02em;
-}
-.ladder{ list-style:none; margin:0; padding:0; }
-.ladder li{
-  display:grid; grid-template-columns:64px 1fr; gap:16px; align-items:center;
-  padding:12px 0; border-top:1px solid var(--parchment-shadow);
-}
-.ladder li:first-child{border-top:none;}
-.ladder .dc{ font-family:var(--font-mono); font-size:24px; font-weight:700; color:var(--scarlet); text-align:center;}
-.ladder .bar{ height:8px; background:var(--parchment-shadow); position:relative; }
-.ladder .bar i{ position:absolute; left:0; top:0; bottom:0; background:var(--scarlet); display:block;}
-.ladder .name{ font-family:var(--font-head); font-size:14px; letter-spacing:.05em; margin-left:14px; text-transform:uppercase; color:var(--muted-ink);}
-.ladder .row-label{ display:flex; align-items:center; }
-
-/* ============ MODIFICADORES ============ */
-.mod-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
-.mod-card{ border:1px solid var(--ink-line); padding:20px; background:rgba(255,255,255,.02); }
-.mod-card h4{ font-family:var(--font-head); font-size:16.5px; color:var(--gold-light); display:flex; gap:10px; align-items:center;}
-.mod-card h4 svg{width:18px;height:18px;flex:none;}
-.mod-card p{ font-size:15px; color:var(--muted-cream); margin:8px 0 0 0;}
-
-/* ============ ROLES TABLE ============ */
-.table-scroll{ overflow-x:auto; border:1px solid var(--scarlet); }
-table.roles{ width:100%; border-collapse:collapse; min-width:760px; font-size:15.5px; }
-table.roles th{
-  font-family:var(--font-head); font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
-  background:var(--scarlet); color:var(--parchment); text-align:left; padding:12px 14px;
-}
-table.roles td{ padding:12px 14px; border-top:1px solid var(--parchment-shadow); vertical-align:top; }
-table.roles tr:nth-child(even) td{ background:rgba(122,22,32,.05); }
-table.roles td.tag{ font-family:var(--font-mono); font-size:12.5px; color:var(--scarlet); white-space:nowrap; }
-table.roles td.multi-line div{ margin-bottom:6px; }
-table.roles td.multi-line div:last-child{ margin-bottom:0; }
-table.roles td.multi-line.tag div{ white-space:normal; }
-
-/* ============ FIXTURE Y TABLA DE POSICIONES ============ */
-.fx-section{
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(201,161,59,.14), transparent 55%),
-    radial-gradient(ellipse at 12% 90%, rgba(122,22,32,.18), transparent 50%),
-    radial-gradient(ellipse at 88% 85%, rgba(27,44,86,.22), transparent 50%),
-    var(--ink);
-}
-.fx-stars{ position:absolute; inset:0; z-index:0; pointer-events:none; }
-.fx-stars span{
-  position:absolute; width:2px; height:2px; background:var(--gold-light); border-radius:50%;
-  opacity:.5; animation: twinkle 4s ease-in-out infinite;
-}
-.fx-candle{
-  position:absolute; width:5px; height:28px; z-index:1; opacity:.9;
-  background: linear-gradient(180deg,#efe6c9,#cbb884); border-radius:2px;
-  animation: bob 6s ease-in-out infinite;
-}
-.fx-candle::after{
-  content:""; position:absolute; top:-11px; left:50%; transform:translateX(-50%);
-  width:8px; height:14px;
-  background: radial-gradient(circle at 50% 30%, #fff2c2, #f0b23c 55%, transparent 75%);
-  border-radius:50% 50% 45% 45%; filter:blur(.3px);
-  animation: flicker 2.4s ease-in-out infinite;
-}
-.fx-snitch{ position:absolute; width:22px; height:22px; z-index:1; opacity:.85; animation: fly 17s ease-in-out infinite; will-change:transform; }
-.fx-snitch svg{ width:100%; height:100%; }
-
-.fixture-grid{ position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; margin-bottom:64px; }
-
-.fx-card{
-  position:relative;
-  background: linear-gradient(160deg, rgba(24,26,36,.92), rgba(10,11,15,.96));
-  border:1px solid var(--gold-dim);
-  border-radius:3px;
-  padding:22px 22px 20px 22px;
-  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, opacity .25s ease, filter .25s ease;
-}
-.fx-card::before, .fx-card::after{
-  content:""; position:absolute; width:14px; height:14px;
-  border:2px solid var(--gold-dim); pointer-events:none;
-}
-.fx-card::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
-.fx-card::after{ top:-1px; right:-1px; border-left:none; border-bottom:none; }
-.fx-card:hover{ transform:translateY(-4px); border-color:var(--gold); box-shadow:0 14px 30px rgba(0,0,0,.4); }
-
-.fx-head{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding-bottom:12px; margin-bottom:10px; border-bottom:1px solid var(--ink-line);
-}
-.fx-head span{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-cream); }
-.fx-head .fx-date{ font-family:var(--font-head); font-size:14.5px; letter-spacing:.03em; text-transform:none; color:var(--gold-light); font-weight:600; }
-.fx-match{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px; padding:9px 0; }
-.fx-match + .fx-match{ border-top:1px dashed var(--ink-line); }
-.fx-team{ display:flex; align-items:center; gap:8px; font-size:15.5px; color:var(--cream-text); }
-.fx-team.away{ flex-direction:row-reverse; text-align:right; }
-.fx-vs{ font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-cream); opacity:.7; }
-.house-chip{ width:11px; height:11px; border-radius:50%; flex-shrink:0; display:inline-block; background:var(--house-color); box-shadow:0 0 7px var(--house-color); }
-
-/* fecha ya jugada */
-.fx-card.fx-played{ opacity:.42; filter:grayscale(.7); }
-.fx-card.fx-played:hover{ transform:none; border-color:var(--gold-dim); box-shadow:none; }
-.fx-played-tag{
-  position:absolute; top:10px; right:10px;
-  font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--muted-cream); border:1px solid var(--ink-line); padding:3px 9px; border-radius:20px;
-  background:rgba(0,0,0,.4);
-}
-
-/* próxima fecha a jugarse */
-.fx-card.fx-next{
-  border-color:var(--gold-light);
-  animation: fxPulse 2.6s ease-in-out infinite;
-}
-@keyframes fxPulse{
-  0%,100%{ box-shadow:0 0 0 1px var(--gold-light), 0 0 22px rgba(240,212,136,.2); }
-  50%{ box-shadow:0 0 0 1px var(--gold-light), 0 0 40px rgba(240,212,136,.45); }
-}
-.fx-next-tag{
-  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
-  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--ink); background:linear-gradient(180deg,var(--gold-light),var(--gold));
-  padding:4px 14px; border-radius:20px; box-shadow:0 4px 14px rgba(0,0,0,.4);
-  white-space:nowrap;
-}
-
-.standings-head{ position:relative; z-index:2; text-align:center; margin-bottom:24px; }
-.standings-head h3{ font-family:var(--font-head); font-size:clamp(22px,3vw,28px); color:var(--gold-light); }
-
-.standings-list{ position:relative; z-index:2; max-width:760px; margin:0 auto; }
-.sr-row{
-  display:flex; align-items:center; gap:18px;
-  padding:16px 20px; margin-bottom:12px;
-  border:1px solid var(--gold-dim); border-radius:4px;
-  background: linear-gradient(160deg, rgba(24,26,36,.9), rgba(10,11,15,.95));
-  transition: transform .2s ease, border-color .2s ease;
-}
-.sr-row:hover{ transform:translateY(-2px); border-color:var(--gold); }
-.sr-row.sr-leader{
-  border-color:var(--gold-light);
-  box-shadow:0 0 0 1px var(--gold-light), 0 0 26px rgba(240,212,136,.22);
-  background: linear-gradient(160deg, rgba(64,50,20,.55), rgba(10,11,15,.95));
-}
-.sr-rank{
-  font-family:var(--font-head); font-size:24px; font-weight:700;
-  color:var(--gold-light); width:30px; text-align:center; flex-shrink:0;
-}
-.sr-team{ display:flex; align-items:center; gap:10px; font-weight:600; color:var(--cream-text); flex:1 1 140px; min-width:0; }
-.sr-team span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.sr-stats{ display:flex; gap:16px; flex-shrink:0; }
-.sr-stats div{ display:flex; flex-direction:column; align-items:center; }
-.sr-stats b{ font-family:var(--font-mono); font-size:15px; color:var(--cream-text); font-weight:700; }
-.sr-stats small{ font-family:var(--font-mono); font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-cream); opacity:.7; }
-.sr-pts{ text-align:right; flex-shrink:0; min-width:64px; }
-.sr-pts b{ display:block; font-family:var(--font-mono); font-size:22px; font-weight:700; color:var(--gold-light); line-height:1; }
-.sr-pts small{ font-family:var(--font-mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-cream); }
-
-@media (max-width:640px){
-  .sr-row{ flex-wrap:wrap; row-gap:12px; padding:14px 16px; }
-  .sr-team{ order:1; flex:1 1 auto; }
-  .sr-rank{ order:0; }
-  .sr-stats{ order:3; flex:1 1 100%; justify-content:space-between; padding-top:10px; border-top:1px dashed var(--ink-line); }
-  .sr-pts{ order:2; }
-}
-
-.standings-legend{ position:relative; z-index:2; text-align:center; font-size:14.5px; color:var(--muted-cream); max-width:640px; margin:16px auto 0 auto; }
-
-/* ============ TABLA RESPONSIVE "ROLES Y ACCIONES" (sin scroll horizontal en mobile) ============ */
-@media (max-width:760px){
-  .table-scroll{ overflow-x:visible; border:none; }
-
-  table.roles{ min-width:0; width:100%; display:block; }
-  table.roles thead{ display:none; }
-  table.roles tbody{ display:block; }
-  table.roles tr{ display:block; margin-bottom:14px; border-radius:3px; overflow:hidden; }
-  table.roles td{
-    display:flex; align-items:center; justify-content:space-between; gap:14px;
-    width:auto; padding:11px 14px; text-align:right; border-top:none;
-  }
-  table.roles td::before{
-    content: attr(data-label);
-    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
-    text-align:left; flex-shrink:0;
+  :root{
+    --bordo-centro: #3a0c14;
+    --bordo-medio: #22060c;
+    --negro-borde: #060102;
+    --negro-calido: #0b0203;
+    --pergamino: #e8dcc0;
+    --oro-viejo: #b9954f;
+    --tinta: #7a1018;
+    --tinta-oscura: #4a0910;
+    --grieta-plata: #d9dae2;
+    --grieta-sombra: #1c0508;
   }
 
-  table.roles tr{ border:1px solid var(--scarlet); background:rgba(255,255,255,.35); }
-  table.roles tr:nth-child(even){ background:rgba(122,22,32,.06); }
-  table.roles td{ border-bottom:1px solid var(--parchment-shadow); }
-  table.roles td:last-child{ border-bottom:none; }
-  table.roles td::before{ color:var(--scarlet); }
-  table.roles td.tag{ text-align:right; }
+  *{ box-sizing:border-box; }
 
-  /* celdas del Cazador unificado: la etiqueta arriba, las acciones apiladas debajo */
-  table.roles td.multi-line{ display:block; text-align:left; }
-  table.roles td.multi-line::before{ display:block; margin-bottom:8px; }
-  table.roles td.multi-line div{ text-align:left; }
-}
+  html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    background: var(--negro-borde);
+    overflow:hidden;
+  }
 
-/* ============ TIMELINE (Desarrollo del partido) ============ */
-.timeline{ position:relative; max-width:820px; margin:0 auto; }
-.timeline::before{
-  content:""; position:absolute; left:29px; top:8px; bottom:8px; width:1px;
-  background: linear-gradient(var(--gold), transparent 95%);
-}
-.tl-step{ position:relative; padding:0 0 44px 78px; }
-.tl-step:last-child{padding-bottom:0;}
-.tl-step .idx{
-  position:absolute; left:0; top:0; width:60px; height:60px;
-  border:1px solid var(--gold); display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-mono); font-size:20px; color:var(--gold-light); background:var(--ink);
-}
-.tl-step h4{ font-family:var(--font-head); font-size:20px; color:var(--gold-light); }
-.tl-step p{ color:var(--muted-cream); font-size:16.5px; margin-top:8px; }
-.tl-step .sub{ margin-top:10px; padding:12px 16px; border-left:2px solid var(--gold-dim); background:rgba(201,161,59,.05); font-size:15px; }
+  body{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at center, var(--bordo-centro) 0%, var(--bordo-medio) 45%, var(--negro-borde) 85%, var(--negro-calido) 100%);
+  }
 
-/* ============ PUNTOS ============ */
-.points-visual{ display:flex; gap:24px; justify-content:center; align-items:flex-end; flex-wrap:wrap; margin-bottom:34px;}
-.point-bar{ text-align:center; width:150px; }
-.point-bar .stack{ height:180px; display:flex; align-items:flex-end; justify-content:center; }
-.point-bar .fill{ width:64px; background:linear-gradient(180deg,var(--gold-light),var(--scarlet)); position:relative; }
-.point-bar .val{ font-family:var(--font-mono); font-size:26px; font-weight:700; color:var(--ink); position:absolute; top:-34px; left:0; right:0; color:var(--scarlet); }
-.point-bar .cap{ margin-top:12px; font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-ink); }
+  /* viñeta y textura sutil */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse at center, transparent 40%, rgba(9,1,3,0.55) 100%);
+    z-index:2;
+  }
 
-/* ============ CARTAS TACTICAS (flip cards) ============ */
-.cards-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:22px; perspective:1400px; }
-.tcard{ height:270px; }
-.tcard-inner{
-  position:relative; width:100%; height:100%; transition: transform .7s cubic-bezier(.2,.8,.2,1);
-  transform-style:preserve-3d;
-}
-.tcard:hover .tcard-inner, .tcard.flipped .tcard-inner{ transform: rotateY(180deg); }
-.tcard-face{
-  position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
-  border:1px solid var(--gold); padding:18px; display:flex; flex-direction:column;
-}
-.tcard-front{
-  background: linear-gradient(155deg, #17130a, #241c0f 60%, #0d0b06);
-  align-items:center; justify-content:center; text-align:center; gap:14px;
-}
-.tcard-front svg{ width:44px;height:44px; color:var(--gold-light); }
-.tcard-front .tname{ font-family:var(--font-head); font-size:17px; color:var(--gold-light); letter-spacing:.03em; }
-.tcard-front .tap{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-cream); opacity:.6; }
-.tcard-back{
-  background: linear-gradient(155deg, #241c0f, #17130a 60%);
-  transform: rotateY(180deg);
-  justify-content:center;
-}
-.tcard-back .tname{ font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold-dim); margin-bottom:10px; }
-.tcard-back p{ font-size:15.5px; color:var(--cream-text); margin:0; }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:0.05;
+    background-image: repeating-radial-gradient(circle at 20% 30%, #fff 0, transparent 1px, transparent 3px);
+    z-index:1;
+  }
 
-/* ============ ROL MASTER ============ */
-.rm-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:44px; }
-@media (max-width:820px){ .rm-grid{grid-template-columns:1fr;} }
-.rm-list{ list-style:none; margin:0; padding:0; columns:1; }
-.rm-list li{ padding:9px 0 9px 24px; position:relative; font-size:16.5px; border-top:1px solid var(--ink-line);}
-.rm-list li:first-child{border-top:none;}
-.rm-list li::before{ content:"◆"; position:absolute; left:0; font-size:9px; top:16px; color:var(--gold);}
-.victory-box{ }
-.victory-box h4{ font-family:var(--font-head); color:var(--gold-light); font-size:16px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px;}
+  .stage{
+    position:relative;
+    z-index:3;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap: clamp(1.4rem, 4vh, 2.6rem);
+    padding: 5vh 5vw;
+  }
 
-/* ============ FOOTER ============ */
-footer{ background:var(--ink); border-top:1px solid var(--ink-line); padding:48px 0 32px 0; text-align:center; }
-footer .wrap{ display:flex; flex-direction:column; align-items:center; gap:14px; }
-footer .fmark{ font-family:var(--font-head); letter-spacing:.2em; font-size:14px; color:var(--gold-light); }
-footer .fnote{ font-family:var(--font-mono); font-size:11.5px; color:var(--muted-cream); letter-spacing:.05em; }
-footer .fsnitch{ width:20px;height:20px; color:var(--gold); }
+  .title-block{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap: clamp(0.8rem, 3vh, 1.8rem);
+    width:100%;
+  }
 
-@media (max-width:600px){
-  body{font-size:17.5px;}
-  .framed{padding:20px 16px;}
-}
-@media (max-width:400px){
-  .pos-grid{grid-template-columns:1fr;}
-  .wrap{padding:0 20px;}
-  .nav{padding:12px 18px;}
-}
+  /* ---------- TEXTO 1: Estrategias de Quidditch ---------- */
+  .strike-wrap{
+    position:relative;
+    display:inline-block;
+    opacity:0;
+    animation: aparecer1 0.9s ease-out forwards;
+  }
 
-/* ============ DICE MODAL ============ */
-.dice-modal-overlay{
-  position:fixed; inset:0; z-index:80;
-  display:none; align-items:center; justify-content:center;
-  padding:24px;
-  background: rgba(5,6,9,.82);
-  backdrop-filter: blur(8px);
-}
-.dice-modal-overlay.open{ display:flex; }
-.dice-modal{
-  position:relative;
-  width:100%; max-width:380px;
-  background: linear-gradient(155deg,#17130a,#1c1811 60%,#0d0b06);
-  border-color: var(--gold);
-  text-align:center;
-  padding:32px 26px 28px 26px;
-}
-.dice-modal h3{
-  font-family:var(--font-head); font-size:22px; color:var(--gold-light);
-  margin-top:6px; letter-spacing:.03em;
-}
-.dice-close{
-  position:absolute; top:10px; right:12px;
-  background:none; border:none; color:var(--muted-cream);
-  font-size:26px; line-height:1; cursor:pointer; padding:6px 10px;
-  transition:color .2s ease;
-}
-.dice-close:hover{ color:var(--gold-light); }
-.dice-stage{
-  position:relative;
-  width:170px; height:170px;
-  margin:22px auto 14px auto;
-}
-#diceSvg{ width:100%; height:100%; }
-#diceSvg.is-rolling{ animation: diceRoll 1.1s cubic-bezier(.25,.85,.3,1); }
-@keyframes diceRoll{
-  0%{ transform:rotate(0deg) scale(1); }
-  30%{ transform:rotate(300deg) scale(1.12); }
-  62%{ transform:rotate(680deg) scale(.94); }
-  100%{ transform:rotate(1080deg) scale(1); }
-}
-.dice-result{
-  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-mono); font-weight:700; font-size:34px; color:var(--ink);
-  pointer-events:none;
-}
-.dice-result.pop{ animation: dicePop .4s ease; }
-@keyframes dicePop{ 0%{ transform:scale(.5); opacity:0; } 60%{ transform:scale(1.25); opacity:1; } 100%{ transform:scale(1); } }
-.dice-history{
-  list-style:none;
-  margin: 4px 0 16px 0;
-  padding: 0;
-  min-height:1.4em;
-  text-align:center;
-  font-family:var(--font-mono);
-  font-size:12px;
-  letter-spacing:.03em;
-  color:var(--muted-cream);
-  opacity:.85;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-.dice-history li{ display:flex; gap:8px; align-items:baseline; justify-content:center; }
-.dice-history li:first-child{ color:var(--gold-light); opacity:1; }
-.dice-history .hv{ font-weight:700; min-width:1.6em; text-align:right; }
-.dice-history.hidden{ display:none; }
-#diceRollBtn:disabled,
-#diceRollBtn:disabled:hover{
-  background:#4a4a4a;
-  border-color:#5a5a5a;
-  color:#9a9a9a;
-  opacity:.7;
-  cursor:not-allowed;
-  font-variant-numeric: tabular-nums;
-}
-.dice-houses{ display:flex; gap:10px; justify-content:center; margin-bottom:20px; }
-.dice-houses span{ width:10px; height:10px; border-radius:50%; display:inline-block; }
-@media (prefers-reduced-motion: reduce){ #diceSvg.is-rolling{ animation:none; } }
+  @keyframes aparecer1{
+    0%{ opacity:0; transform: translateY(8px); }
+    100%{ opacity:1; transform: translateY(0); }
+  }
 
-.training-toggle{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin: 2px 0 18px 0;
-}
-.training-label{
-  font-family:var(--font-mono);
-  font-size:11px;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--muted-cream);
-}
-.switch{ position:relative; display:inline-block; width:42px; height:23px; flex-shrink:0; }
-.switch input{ opacity:0; width:0; height:0; position:absolute; }
-.switch .slider{
-  position:absolute; inset:0; cursor:pointer;
-  background:#3a3a3a; border:1px solid var(--gold-dim);
-  border-radius:24px; transition:.2s ease;
-}
-.switch .slider::before{
-  content:""; position:absolute;
-  height:15px; width:15px; left:3px; bottom:3px;
-  background:var(--muted-cream); border-radius:50%; transition:.2s ease;
-}
-.switch input:checked + .slider{ background:var(--gold-dim); border-color:var(--gold); }
-.switch input:checked + .slider::before{ transform:translateX(19px); background:var(--gold-light); }
-.switch input:focus-visible + .slider{ outline:2px solid var(--gold-light); outline-offset:2px; }
+  .text1{
+    font-family:'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight:500;
+    letter-spacing: 0.04em;
+    font-size: clamp(0.85rem, 4.6vw, 2.6rem);
+    color: var(--pergamino);
+    text-shadow: 0 0 18px rgba(185,149,79,0.25);
+    white-space: nowrap;
+    max-width: 92vw;
+    display: inline-block;
+  }
 
+  .scribble-svg{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-55%);
+    width:112%;
+    height:220%;
+    overflow:visible;
+    pointer-events:none;
+  }
 
-/* ============ CREDIT BAR ============ */
-body{ padding-bottom: 44px; }
-.credit-bar{
-  position:fixed; left:0; right:0; bottom:0; z-index:60;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  padding:10px 16px;
-  background: linear-gradient(0deg, rgba(10,11,15,.97), rgba(10,11,15,.9));
-  border-top:1px solid var(--ink-line);
-  backdrop-filter: blur(6px);
-}
-.credit-bar a{
-  display:inline-flex; align-items:center; gap:7px;
-  text-decoration:none;
-  font-family:var(--font-mono);
-  font-size:11.5px;
-  letter-spacing:.08em;
-  color:var(--muted-cream);
-  transition: color .2s ease;
-}
-.credit-bar a:hover{ color:var(--gold-light); }
-.credit-bar svg{ width:15px; height:15px; flex:none; }
-.credit-bar .lbl{ color:var(--muted-cream); font-family:var(--font-mono); font-size:11.5px; letter-spacing:.04em; }
-@media (max-width:420px){
-  .credit-bar{ padding:9px 10px; gap:6px; }
-  .credit-bar .lbl, .credit-bar a{ font-size:10.5px; }
-}
+  .scribble-path{
+    fill:none;
+    stroke: var(--tinta);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: url(#tinta-aspera);
+  }
 
-/* ============ DICE FAB (botón flotante) ============ */
-.dice-fab{
-  position:fixed; right:22px; bottom:74px; z-index:65;
-  width:58px; height:58px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  background: linear-gradient(160deg, var(--gold-light), var(--gold) 60%, var(--bronze));
-  color:var(--ink);
-  border:2px solid var(--gold-light);
-  box-shadow:0 8px 22px rgba(0,0,0,.45);
-  cursor:pointer;
-  padding:0;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.dice-fab svg{ width:30px; height:30px; overflow:visible; }
-.dice-fab-spin{ transform-box: fill-box; transform-origin:center; animation: fabSpin 7s linear infinite; }
-@keyframes fabSpin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
-.dice-fab:hover{ transform:scale(1.08); box-shadow:0 12px 28px rgba(0,0,0,.5); }
-.dice-fab:active{ transform:scale(.94); }
-@media (max-width:420px){
-  .dice-fab{ width:50px; height:50px; right:14px; bottom:64px; }
-  .dice-fab svg{ width:25px; height:25px; }
-}
+  .scribble-1{
+    stroke-width:5.5;
+    stroke-dasharray: 620;
+    stroke-dashoffset: 620;
+    opacity:0.95;
+    animation: trazo1 0.28s cubic-bezier(.55,0,.85,.35) 0.95s forwards;
+  }
+
+  .scribble-2{
+    stroke-width:3.5;
+    stroke: var(--tinta-oscura);
+    stroke-dasharray: 560;
+    stroke-dashoffset: 560;
+    opacity:0.85;
+    animation: trazo2 0.22s cubic-bezier(.6,0,.9,.3) 1.12s forwards;
+  }
+
+  @keyframes trazo1{
+    to{ stroke-dashoffset:0; }
+  }
+  @keyframes trazo2{
+    to{ stroke-dashoffset:0; }
+  }
+
+  .strike-wrap.impacto{
+    animation: aparecer1 0.9s ease-out forwards, golpe 0.35s ease-out 0.95s;
+  }
+
+  @keyframes golpe{
+    0%{ transform: translate(0,0) rotate(0deg); }
+    20%{ transform: translate(-3px,1px) rotate(-0.6deg); }
+    40%{ transform: translate(3px,-1px) rotate(0.7deg); }
+    60%{ transform: translate(-2px,0) rotate(-0.4deg); }
+    80%{ transform: translate(1px,1px) rotate(0.3deg); }
+    100%{ transform: translate(0,0) rotate(0deg); }
+  }
+
+  .strike-wrap.desvanecido .text1{
+    animation: desvanecer 0.7s ease-in 1.5s forwards;
+  }
+  .strike-wrap.desvanecido .scribble-svg{
+    animation: desvanecer 0.7s ease-in 1.5s forwards;
+  }
+
+  @keyframes desvanecer{
+    to{ opacity:0.28; filter: blur(0.3px); }
+  }
+
+  /* ---------- TEXTO 2: Bitácora de Oliver Wood ---------- */
+  .text2{
+    font-family:'Homemade Apple', cursive;
+    font-weight:400;
+    color: var(--oro-viejo);
+    font-size: clamp(1.4rem, 8vw, 4.4rem);
+    line-height:1.3;
+    text-shadow: 0 0 22px rgba(185,149,79,0.3);
+    margin:0;
+    max-width: 88vw;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    -webkit-hyphens: none;
+    hyphens: none;
+  }
+
+  .word{
+    display: inline-block;
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+
+  .letter{
+    display:inline-block;
+    opacity:0;
+    white-space:pre;
+    transform: translateY(var(--ty)) rotate(var(--rot));
+    animation:
+      revelar 0.45s ease-out var(--delay) forwards,
+      tiemble var(--tdur) ease-in-out var(--tdelay) infinite;
+  }
+
+  @keyframes revelar{
+    0%{ opacity:0; transform: translateY(calc(var(--ty) - 12px)) rotate(calc(var(--rot) - 5deg)); }
+    100%{ opacity:1; transform: translateY(var(--ty)) rotate(var(--rot)); }
+  }
+
+  @keyframes tiemble{
+    0%, 100%{ transform: translateY(var(--ty)) rotate(var(--rot)); }
+    25%{ transform: translateY(calc(var(--ty) - 1px)) rotate(calc(var(--rot) - 0.5deg)); }
+    50%{ transform: translateY(calc(var(--ty) + 1.4px)) rotate(calc(var(--rot) + 0.6deg)); }
+    75%{ transform: translateY(calc(var(--ty) + 0.6px)) rotate(calc(var(--rot) - 0.4deg)); }
+  }
+
+  /* ---------- BOTON ---------- */
+  .intro-btns{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap: clamp(0.8rem, 2vw, 1.4rem);
+  }
+
+  .read-btn{
+    font-family:'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.2vw, 1.3rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pergamino);
+    background: transparent;
+    border: 1px solid var(--oro-viejo);
+    padding: 0.75em 2.1em;
+    border-radius: 2px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:0.6em;
+    opacity:0;
+    transform: translateY(10px);
+    pointer-events:none;
+    transition: border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  }
+
+  .read-btn.visible{
+    animation: entrarBoton 0.8s ease-out forwards;
+    pointer-events:auto;
+  }
+
+  @keyframes entrarBoton{
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  .read-btn:hover{
+    background: rgba(185,149,79,0.08);
+    border-color: var(--pergamino);
+    box-shadow: 0 0 20px rgba(185,149,79,0.25);
+  }
+
+  .read-btn .flecha{
+    display:inline-block;
+    transition: transform 0.3s ease;
+    font-style: normal;
+  }
+
+  .read-btn:hover .flecha{
+    transform: translateX(5px);
+  }
+
+  @media (max-width: 420px){
+    .stage{
+      gap: clamp(1rem, 3.5vh, 1.8rem);
+      padding: 4vh 6vw;
+    }
+    .title-block{
+      gap: clamp(0.6rem, 2.2vh, 1.2rem);
+    }
+    .read-btn{
+      padding: 0.65em 1.7em;
+      letter-spacing: 0.08em;
+    }
+  }
+
+  @media (max-width: 360px){
+    .text1{
+      font-size: clamp(0.72rem, 4vw, 1.3rem);
+    }
+    .text2{
+      font-size: clamp(1.15rem, 8vw, 2rem);
+    }
+  }
+
+  /* =========================================================
+     PANTALLA 1: portada — transición de salida
+  ========================================================= */
+  #screenIntro{
+    transition: opacity 0.5s ease;
+  }
+  #screenIntro.fundido{
+    opacity:0;
+    pointer-events:none;
+  }
+
+  /* =========================================================
+     PANTALLA 2: lector de la bitácora
+  ========================================================= */
+  #screenReader{
+    position:fixed;
+    inset:0;
+    z-index:3;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition: opacity 0.6s ease;
+    padding: 4vh 4vw;
+    --nivel: 0;
+    background:
+      radial-gradient(ellipse at center,
+        color-mix(in srgb, var(--bordo-centro) calc(100% - var(--nivel) * 8%), var(--negro-calido) calc(var(--nivel) * 8%)) 0%,
+        color-mix(in srgb, var(--bordo-medio) calc(100% - var(--nivel) * 8%), var(--negro-calido) calc(var(--nivel) * 8%)) 45%,
+        var(--negro-borde) 85%, var(--negro-calido) 100%);
+    transition: opacity 0.6s ease, background 1s ease;
+  }
+  #screenReader.abierto{ display:flex; }
+  #screenReader.visible{ opacity:1; }
+
+  .page-counter{
+    position:fixed;
+    top: max(1.2rem, env(safe-area-inset-top));
+    right: 1.4rem;
+    z-index:6;
+    font-family:'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: rgba(232,220,192,0.4);
+    pointer-events:none;
+  }
+
+  .journal-page{
+    position:relative;
+    z-index:3;
+    width:min(92vw, 680px);
+    max-height:80vh;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap: clamp(1.1rem, 3vh, 1.6rem);
+    text-align:left;
+    padding: clamp(1.7rem, 4.5vw, 3rem) clamp(1.5rem, 4.5vw, 2.8rem);
+    background: linear-gradient(180deg, rgba(24,5,8,0.4), rgba(6,1,2,0.6));
+    border: 1px solid rgba(185,149,79,0.16);
+    border-radius: 2px;
+    box-shadow: 0 0 46px rgba(0,0,0,0.5) inset, 0 20px 60px rgba(0,0,0,0.55);
+    opacity:1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease, filter 0.9s ease;
+  }
+  .journal-page.transicion{
+    opacity:0;
+    transform: translateY(-10px);
+  }
+  .journal-page::-webkit-scrollbar{ width:6px; }
+  .journal-page::-webkit-scrollbar-thumb{ background: rgba(185,149,79,0.25); border-radius:3px; }
+
+  .entry-date{
+    margin:0;
+    font-family:'Homemade Apple', cursive;
+    font-size: clamp(1.5rem, 4.4vw, 2.2rem);
+    color: var(--oro-viejo);
+    text-shadow: 0 0 14px rgba(185,149,79,0.22);
+  }
+
+  .entry-body{
+    display:flex;
+    flex-direction:column;
+    gap: 1em;
+    transition: opacity 0.9s ease, filter 0.9s ease;
+  }
+
+  .entry-body p{
+    margin:0;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    font-size: clamp(1rem, 2.1vw, 1.18rem);
+    line-height:1.75;
+    color: var(--pergamino);
+  }
+
+  .tachon{
+    display:inline-block;
+    vertical-align: -0.1em;
+    margin: 0 0.18em;
+    line-height: 0;
+  }
+  .tachon-svg{ display:block; }
+  .tachon-trazo{
+    fill:none;
+    stroke: var(--pergamino);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    opacity: 0.85;
+  }
+
+  .journal-page.hoja-arrancada .entry-body{
+    align-items:center;
+    text-align:center;
+  }
+  .journal-page.hoja-arrancada .entry-body p{
+    font-style: italic;
+    color: rgba(232,220,192,0.55);
+    letter-spacing: 0.03em;
+  }
+  .journal-page.hoja-arrancada .entry-date{
+    text-align:center;
+    color: rgba(185,149,79,0.45);
+  }
+
+  .nav-btn{
+    align-self:center;
+    margin-top: 0.4rem;
+  }
+
+  /* =========================================================
+     GRIETAS DE ESPEJO ROTO
+  ========================================================= */
+  #darkOverlay{
+    position:fixed;
+    inset:0;
+    z-index:4;
+    pointer-events:none;
+    opacity:0;
+    background: radial-gradient(circle at 50% 50%, transparent 15%, rgba(9,1,3,0.88) 100%);
+    transition: opacity 1.1s ease;
+  }
+
+  #crackOverlay{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:5;
+    pointer-events:none;
+  }
+
+  .crack-seg{
+    stroke: var(--grieta-plata);
+    stroke-linecap: round;
+    opacity:0;
+    filter:
+      drop-shadow(0 0 3px rgba(217,218,226,0.55))
+      drop-shadow(0 0 1px var(--grieta-sombra));
+    transition: opacity 0.9s ease;
+  }
+
+  .crack-shard{
+    fill: var(--negro-calido);
+    stroke: rgba(217,218,226,0.28);
+    stroke-width: 1;
+    opacity:0;
+    transition: opacity 1.3s ease;
+  }
+
+  /* =========================================================
+     MODO BRUMA — pagina final, sin grietas, fondo oscuro
+     con niebla plateada en movimiento
+  ========================================================= */
+  body.bruma-modo{
+    background: radial-gradient(ellipse at center, #111219 0%, #08080b 50%, #020203 100%);
+  }
+
+  #screenReader.bruma-activa{
+    background: radial-gradient(ellipse at center, #14151c 0%, #0a0a0e 45%, #050506 85%, #020203 100%);
+  }
+
+  #brumaCanvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:2;
+    pointer-events:none;
+    opacity:0;
+    filter: blur(18px);
+    transition: opacity 1.8s ease;
+  }
+  #brumaCanvas.activo{ opacity:1; }
+
+  #brumaBlackSVG{
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:min(92.8vw,92.8vh);
+    height:min(92.8vw,92.8vh);
+    margin-top:calc(min(92.8vw,92.8vh) / -2);
+    margin-left:calc(min(92.8vw,92.8vh) / -2);
+    z-index:2;
+    pointer-events:none;
+    opacity:0;
+    overflow:visible;
+    transition: opacity 1.8s ease;
+  }
+  #brumaBlackSVG.activo{ opacity:1; }
+
+  #journalBlackGroup{
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+  }
+
+  .journal-page.bruma-articulo{
+    background: linear-gradient(180deg, rgba(19,20,27,0.55), rgba(4,4,6,0.78));
+    border-color: rgba(199,203,214,0.16);
+    box-shadow: 0 0 50px rgba(0,0,0,0.6) inset, 0 20px 70px rgba(0,0,0,0.6);
+  }
+
+  .journal-page.bruma-articulo .entry-date{
+    color: var(--grieta-plata);
+    text-shadow: 0 0 16px rgba(199,203,214,0.3);
+  }
+
+  .journal-page.bruma-articulo .entry-body p{
+    color: #d7d9e2;
+  }
+
+  .journal-page.bruma-articulo .tachon-trazo{
+    stroke: #d7d9e2;
+  }
+
+  /* =========================================================
+     EFECTO AGUA — pagina 4 de agosto: gotas de lluvia sobre
+     la pantalla + petalos de jazmin flotando, con reacciones
+     al llegar el scroll a ciertos puntos del texto
+  ========================================================= */
+  .water-drops, .petalos-jazmin{
+    position:fixed;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+    opacity:0;
+    overflow:hidden;
+    transition: opacity 1.6s ease;
+  }
+  .water-drops.activo, .petalos-jazmin.activo{ opacity:1; }
+  .petalos-jazmin.petalos-ocultos{ opacity:0; transition: opacity 4.2s ease; }
+
+  #waterDrops{
+    --gota-color: 214,224,236;
+    --gota-lentitud: 1;
+    --gota-espesor: 1;
+  }
+
+  .gota-corredera{
+    position:absolute;
+    top:-14vh;
+    width: calc(2px * var(--gota-espesor, 1));
+    border-radius:2px;
+    background: linear-gradient(180deg,
+      rgba(var(--gota-color, 214,224,236),0) 0%,
+      rgba(var(--gota-color, 214,224,236),.5) 35%,
+      rgba(var(--gota-color, 214,224,236),.85) 65%,
+      rgba(var(--gota-color, 214,224,236),0) 100%);
+    filter: blur(.3px);
+    animation-name: gota-caida;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: calc(var(--gota-dur-base, 3.5s) * var(--gota-lentitud, 1));
+    transition: width 1.4s ease;
+  }
+  @keyframes gota-caida{
+    0%{ transform: translateY(0); opacity:0; }
+    10%{ opacity: var(--gota-op, .55); }
+    82%{ opacity: var(--gota-op, .55); }
+    100%{ transform: translateY(124vh); opacity:0; }
+  }
+  .gota-fija{
+    position:absolute;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%,
+      rgba(255,255,255,.6), rgba(var(--gota-color, 202,216,232),.22) 45%, rgba(var(--gota-color, 202,216,232),0) 76%);
+    animation-name: gota-brillo;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: calc(3.8s * var(--gota-lentitud, 1));
+  }
+  @keyframes gota-brillo{
+    0%,100%{ opacity:.3; }
+    50%{ opacity:.65; }
+  }
+
+  .petalo{
+    position:absolute;
+    top:-9vh;
+    width:11px;
+    height:17px;
+    background: linear-gradient(160deg, #f5eed9, #e6dab6 55%, #cdbc8c);
+    border-radius: 62% 38% 66% 34% / 55% 62% 38% 45%;
+    opacity:0;
+    box-shadow: 0 0 5px rgba(0,0,0,.28);
+    animation-name: petalo-caida;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  @keyframes petalo-caida{
+    0%{ transform: translate(0,0) rotate(0deg); opacity:0; }
+    10%{ opacity:.85; }
+    50%{ transform: translate(var(--deriva, 24px), 55vh) rotate(160deg); }
+    88%{ opacity:.65; }
+    100%{ transform: translate(calc(var(--deriva, 24px) * 2), 118vh) rotate(300deg); opacity:0; }
+  }
+
+  .journal-page.pagina-mojada{
+    box-shadow:
+      0 0 60px rgba(120,150,180,0.14) inset,
+      0 20px 70px rgba(0,0,0,0.6);
+  }
+
+  /* vibracion sutil, en pulsos, no continua */
+  @keyframes vibracion-pulso{
+    0%, 55%, 100%{ transform: translate(0,0); }
+    58%{ transform: translate(-1.4px,1px); }
+    61%{ transform: translate(1.4px,-1px); }
+    64%{ transform: translate(-1px,-1.2px); }
+    67%{ transform: translate(1px,1px); }
+    70%{ transform: translate(-0.6px,0.6px); }
+    73%{ transform: translate(0,0); }
+    5%{ transform: translate(0,0); }
+    8%{ transform: translate(-1px,0.8px); }
+    11%{ transform: translate(1px,-0.8px); }
+    14%{ transform: translate(0,0); }
+  }
+  #screenReader.vibracion-activa{
+    animation: vibracion-pulso 2.8s ease-in-out infinite;
+  }
+
 </style>
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
-<nav class="nav">
-  <a class="nav-mark" href="#top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.8 2.8M16.2 16.2 19 19M19 5l-2.8 2.8M7.8 16.2 5 19"/></svg>
-    HETNE
-  </a>
-  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">MENÚ</button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#objetivo">Objetivo</a></li>
-    <li><a href="#equipos">Equipos</a></li>
-    <li><a href="#dados">Dados</a></li>
-    <li><a href="#partido">Partido</a></li>
-    <li><a href="#fixture">Fixture</a></li>
-    <li><a href="#dado" id="diceNavLink">🎲 Dado</a></li>
-    <li><a href="#arbitro">Árbitro</a></li>
-  </ul>
-</nav>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="tinta-aspera" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="4"/>
+  </filter>
+</svg>
 
-<!-- ============ HERO ============ -->
-<header class="hero" id="top">
-  <div class="hero-stars" id="stars"></div>
-  <div class="candle" style="left:8%; top:22%; animation-delay:0s;"></div>
-  <div class="candle" style="left:88%; top:18%; animation-delay:1.2s;"></div>
-  <div class="candle" style="left:16%; top:68%; animation-delay:2.4s;"></div>
-  <div class="candle" style="left:80%; top:70%; animation-delay:3.1s;"></div>
-  <div class="candle" style="left:50%; top:12%; animation-delay:.6s;"></div>
-
-  <div class="snitch" aria-hidden="true">
-    <svg viewBox="0 0 100 100">
-      <ellipse cx="50" cy="50" rx="10" ry="10" fill="#f0d488" stroke="#8a6c2c" stroke-width="2"/>
-      <path d="M40 45 C20 25, 5 30, 2 45 C5 55, 22 55, 40 52 Z" fill="#f2e6c6" opacity="0.85"/>
-      <path d="M60 45 C80 25, 95 30, 98 45 C95 55, 78 55, 60 52 Z" fill="#f2e6c6" opacity="0.85"/>
-    </svg>
-  </div>
-
-  <div class="hero-inner">
-    <div class="hero-crestrow" aria-hidden="true">
-      <span class="g1"></span><span class="g2"></span><span class="g3"></span><span class="g4"></span>
-    </div>
-    <p class="eyebrow" style="justify-content:center;">Sistema Copa de Hogwarts · Rol por dados</p>
-    <h1><small>Torneo de Quidditch</small>Hogwarts HETNE</h1>
-    <p class="tagline">Escobas en alto, dados sobre la mesa. Cinco rondas, tres turnos por equipo y una Snitch dorada deciden quién levanta la copa este año.</p>
-    <div class="hero-ctas">
-      <a class="btn solid" href="#objetivo">Leer el reglamento</a>
-      <a class="btn" href="#fixture">Ver Fixture</a>
-    </div>
-  </div>
-
-  <div class="scrollcue" aria-hidden="true"><span class="line"></span></div>
-</header>
-
-<!-- ============ OBJETIVO ============ -->
-<section class="section on-parchment" id="objetivo">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 1</p>
-      <h2>El Objetivo</h2>
-      <p class="lede">Ganar puntos antes de que el reloj —o la Snitch— decida por vos.</p>
-    </div>
-    <div class="objetivo-grid reveal">
-      <div class="dropcap">
-        <p>El objetivo del partido es obtener la mayor cantidad de puntos antes de que finalice el encuentro. Cada gol convertido con la Quaffle vale diez puntos, y cada Buscador que atrapa la Snitch Dorada le entrega ciento cincuenta puntos a su equipo: suficiente para dar vuelta cualquier marcador.</p>
-        <p>El partido puede terminar de dos maneras, y ambas son igual de válidas para decidir un campeón.</p>
-        <ul class="end-conditions">
-          <li>Se completan las cinco rondas reglamentarias.</li>
-          <li>Un Buscador captura la Snitch Dorada, sin importar el marcador ni la ronda en curso.</li>
-        </ul>
-      </div>
-      <div class="framed score-panel">
-        <div class="c2"></div>
-        <p class="eyebrow" style="justify-content:center;">Marcador</p>
-        <div class="score-row">
-          <div class="score-item"><div class="num">+10</div><div class="lbl">Gol con Quaffle</div></div>
-          <div class="score-item"><div class="num">+150</div><div class="lbl">Snitch Dorada</div></div>
-        </div>
-        <p style="font-size:15px;color:var(--muted-ink);margin:0;">Gana el equipo con más puntos al finalizar el encuentro.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ EQUIPOS ============ -->
-<section class="section on-ink" id="equipos">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 2</p>
-      <h2>Los Equipos</h2>
-      <p class="lede">Doce jugadores por equipo. Siete en la cancha, cinco esperando su turno.</p>
-    </div>
-    <div class="team-cols reveal">
-      <div>
-        <p class="roster-title">Titulares (7)</p>
-        <div class="pos-grid">
-          <div class="pos-card">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3 4 7v6c0 5 3.5 7.5 8 8 4.5-.5 8-3 8-8V7l-8-4Z"/></svg>
-            <div class="n">1</div><div class="t">Guardián</div>
-            <div class="d">Atajador de aros</div>
-          </div>
-          <div class="pos-card">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 20 17 6M13 3l1.5 1.5M18.5 8.5 20 10M6 17l1 1M9 14l1 1"/></svg>
-            <div class="n">3</div><div class="t">Cazadores</div>
-            <div class="d">Portan la Quaffle</div>
-          </div>
-          <div class="pos-card">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 12h9M13 6l7 6-7 6"/></svg>
-            <div class="n">2</div><div class="t">Golpeadores</div>
-            <div class="d">Manejan las Bludgers</div>
-          </div>
-          <div class="pos-card">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/></svg>
-            <div class="n">1</div><div class="t">Buscador</div>
-            <div class="d">Persigue la Snitch</div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <p class="roster-title">Suplentes (5)</p>
-        <div class="framed" style="height:calc(100% - 34px); display:flex; flex-direction:column; justify-content:center;">
-          <div class="c2"></div>
-          <p style="font-size:17px; margin-bottom:14px;">Cinco jugadores en banco, listos para entrar por decisión del Capitán.</p>
-          <div class="subs-note">Los suplentes únicamente pueden ingresar entre rondas. No se permiten reemplazos durante una ronda en curso.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CAPITAN ============ -->
-<section class="section on-parchment" id="capitan">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 3</p>
-      <h2>El Capitán</h2>
-      <p class="lede">Uno de los siete titulares carga con la corona y con las decisiones.</p>
-    </div>
-    <div class="framed reveal">
-      <div class="c2"></div>
-      <ul class="duty-list">
-        <li><span class="mark">✦</span><span>Lanzar el d20 inicial en representación de su equipo para definir quién comienza atacando con la Quaffle.</span></li>
-        <li><span class="mark">✦</span><span>Definir qué jugador actúa en cada turno de ataque o de defensa.</span></li>
-        <li><span class="mark">✦</span><span>Solicitar un único tiempo muerto por partido.</span></li>
-        <li><span class="mark">✦</span><span>Realizar los reemplazos de suplentes entre rondas.</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SISTEMA DE DADOS ============ -->
-<section class="section on-parchment" id="dados">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 4</p>
-      <h2>El Dado</h2>
-      <p class="lede">Todo se resuelve con un d20. El rol narra la acción; el dado decide si tiene éxito.</p>
-    </div>
-    <div class="dice-wrap reveal">
-      <div>
-        <svg class="d20" viewBox="0 0 100 100" aria-hidden="true">
-          <polygon points="50,4 92,28 92,72 50,96 8,72 8,28" fill="none" stroke="#7a1620" stroke-width="2"/>
-          <polygon points="50,4 92,28 50,50" fill="rgba(122,22,32,.12)" stroke="#7a1620" stroke-width="1"/>
-          <polygon points="50,4 8,28 50,50" fill="rgba(122,22,32,.06)" stroke="#7a1620" stroke-width="1"/>
-          <polygon points="92,28 92,72 50,50" fill="rgba(122,22,32,.09)" stroke="#7a1620" stroke-width="1"/>
-          <polygon points="8,28 8,72 50,50" fill="rgba(122,22,32,.03)" stroke="#7a1620" stroke-width="1"/>
-          <polygon points="50,96 92,72 50,50" fill="rgba(122,22,32,.14)" stroke="#7a1620" stroke-width="1"/>
-          <polygon points="50,96 8,72 50,50" fill="rgba(122,22,32,.07)" stroke="#7a1620" stroke-width="1"/>
-          <text x="50" y="55" text-anchor="middle" font-family="JetBrains Mono" font-size="15" fill="#7a1620">20</text>
-        </svg>
-        <p class="formula">1d20 contra 1d20</p>
-        <p style="text-align:center; font-size:16px; color:var(--muted-ink); margin-top:14px;">El dado decide si una acción tiene éxito o no. El rol sirve para narrar cómo actúa tu personaje.</p>
-      </div>
-      <div class="framed" style="height:calc(100% - 34px);">
-        <div class="c2"></div>
-        <ul class="duty-list">
-          <li><span class="mark">✦</span><span>El jugador que actúa hace su rol primero, narrando la jugada.</span></li>
-          <li><span class="mark">✦</span><span>El jugador rival hace su rol en respuesta.</span></li>
-          <li><span class="mark">✦</span><span>Ambos lanzan un d20. Gana quien saque el número más alto.</span></li>
-          <li><span class="mark">✦</span><span>Si gana el atacante, su equipo conserva la Quaffle y sigue atacando. Si gana el defensor, su equipo recupera la Quaffle.</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ROLES Y ACCIONES ============ -->
-<section class="section on-parchment" id="roles">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 5</p>
-      <h2>Roles y Acciones</h2>
-      <p class="lede">Cada posición participa según le toque atacar o defender.</p>
-    </div>
-    <div class="table-scroll reveal">
-      <table class="roles">
-        <thead>
-          <tr><th>Rol</th><th>Acción</th><th>Tipo</th><th>Cuándo se usa</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-label="Rol">Cazador</td>
-            <td data-label="Acción" class="multi-line">
-              <div>Atacar con la Quaffle</div>
-              <div>Intentar hacer gol</div>
-            </td>
-            <td data-label="Tipo">Ofensiva</td>
-            <td class="tag multi-line" data-label="Cuándo se usa">
-              <div>Turno de ataque</div>
-              <div>Cuando ya se ganó un turno anterior en dicha ronda</div>
-            </td>
-          </tr>
-          <tr><td data-label="Rol">Golpeador</td><td data-label="Acción">Golpear al rival con Bludger</td><td data-label="Tipo">Defensiva</td><td class="tag" data-label="Cuándo se usa">Turno de defensa</td></tr>
-          <tr><td data-label="Rol">Guardián</td><td data-label="Acción">Atajar un tiro al aro</td><td data-label="Tipo">Defensiva</td><td class="tag" data-label="Cuándo se usa">Cuando el otro equipo ya ganó un turno ofensivo en la misma ronda</td></tr>
-          <tr><td data-label="Rol">Buscador</td><td data-label="Acción">Buscar la Snitch</td><td data-label="Tipo">Especial</td><td class="tag" data-label="Cuándo se usa">Al finalizar cada ronda</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DESARROLLO DEL PARTIDO ============ -->
-<section class="section on-ink" id="partido">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 6</p>
-      <h2>Desarrollo del Partido</h2>
-      <p class="lede">Cinco rondas como máximo. Cada una repite exactamente esta secuencia.</p>
-    </div>
-    <div class="timeline reveal">
-      <div class="tl-step">
-        <div class="idx">1</div>
-        <h4>Inicio del Partido</h4>
-        <p>Los dos Capitanes lanzan un d20. El que saca el número más alto comienza con la Quaffle: tener la Quaffle significa que ese equipo empieza atacando.</p>
-        <div class="sub">Ejemplo: Slytherin saca 15, Ravenclaw saca 7. Slytherin inicia el partido atacando.</div>
-      </div>
-      <div class="tl-step">
-        <div class="idx">2</div>
-        <h4>Rondas y Turnos</h4>
-        <p>Cada partido tiene 5 rondas. Cada ronda consta de 3 turnos por equipo. En cada turno solo puede ocurrir una de dos cosas: Atacar (si tu equipo tiene la Quaffle) o Defender (si el equipo rival la tiene).</p>
-      </div>
-      <div class="tl-step">
-        <div class="idx">3</div>
-        <h4>Resolución de un Turno</h4>
-        <p>El jugador atacante hace su rol, luego el jugador defensor hace el suyo. Ambos lanzan un d20 y gana el número más alto.</p>
-        <div class="sub">Si gana el atacante, su equipo conserva la Quaffle y continúa atacando. Si gana el defensor, su equipo recupera la Quaffle y pasa a atacar cuando corresponda.</div>
-      </div>
-      <div class="tl-step">
-        <div class="idx">4</div>
-        <h4>Intento de Gol</h4>
-        <p>Un equipo solo puede lanzar al aro si ya ganó un ataque anteriormente durante esa misma ronda. El Cazador hace el lanzamiento, el Guardián rival intenta detenerlo, y ambos lanzan un d20.</p>
-        <div class="sub">Si gana el Cazador: gol (+10 puntos) y su equipo inicia la siguiente ronda con la Quaffle. Si gana el Guardián: ataja el lanzamiento, no hay puntos, y el equipo defensor comienza la siguiente ronda atacando.</div>
-      </div>
-      <div class="tl-step">
-        <div class="idx">5</div>
-        <h4>Buscadores y la Snitch</h4>
-        <p>Después de los turnos de la ronda, el organizador da una pista sobre la ubicación de la Snitch. Cada Buscador interpreta la pista, elige un lugar donde buscar y escribe su rol.</p>
-        <div class="sub">Si un Buscador encuentra la Snitch: +150 puntos y el partido termina de inmediato. Si ninguno la encuentra, comienza la siguiente ronda.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SISTEMA DE PUNTOS ============ -->
-<section class="section on-parchment" id="puntos">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 7</p>
-      <h2>Sistema de Puntos</h2>
-      <p class="lede">Quince goles equivalen, apenas, a una sola Snitch capturada.</p>
-    </div>
-    <div class="reveal">
-      <div class="points-visual">
-        <div class="point-bar">
-          <div class="stack"><div class="fill" style="height:12%;"><span class="val">10</span></div></div>
-          <div class="cap">Gol convertido</div>
-        </div>
-        <div class="point-bar">
-          <div class="stack"><div class="fill" style="height:100%;"><span class="val">150</span></div></div>
-          <div class="cap">Snitch Dorada</div>
-        </div>
-      </div>
-      <p style="text-align:center; max-width:560px; margin:0 auto; font-size:17px;">El equipo con más puntos al finalizar el partido se declara ganador. Si la Snitch es capturada, el encuentro termina de inmediato, sin importar la ronda en curso.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FIXTURE Y TABLA DE POSICIONES ============ -->
-<section class="section on-ink fx-section" id="fixture">
-  <div class="fx-stars" id="fxStars" aria-hidden="true"></div>
-  <div class="fx-candle" style="left:6%; top:16%;"></div>
-  <div class="fx-candle" style="left:92%; top:20%; animation-delay:1.4s;"></div>
-  <div class="fx-candle" style="left:12%; top:78%; animation-delay:2.8s;"></div>
-  <div class="fx-candle" style="left:88%; top:74%; animation-delay:.7s;"></div>
-  <div class="fx-snitch" aria-hidden="true">
-    <svg viewBox="0 0 100 100">
-      <ellipse cx="50" cy="50" rx="10" ry="10" fill="#f0d488" stroke="#8a6c2c" stroke-width="2"/>
-      <path d="M40 45 C20 25, 5 30, 2 45 C5 55, 22 55, 40 52 Z" fill="#f2e6c6" opacity="0.85"/>
-      <path d="M60 45 C80 25, 95 30, 98 45 C95 55, 78 55, 60 52 Z" fill="#f2e6c6" opacity="0.85"/>
-    </svg>
-  </div>
-
-  <div class="wrap" style="position:relative; z-index:2;">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">Torneo 2026</p>
-      <h2>Fixture y Tabla de Posiciones</h2>
-      <p class="lede">El cronograma completo de fechas y el estado actual de la Copa de Hogwarts.</p>
-    </div>
-
-    <div class="fixture-grid reveal">
-
-      <div class="fx-card" data-date="2026-07-25">
-        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 1 · 25/7/2026</span><span>Visitante</span></div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
-        </div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
-        </div>
-      </div>
-
-      <div class="fx-card" data-date="2026-08-08">
-        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 2 · 8/8/2026</span><span>Visitante</span></div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
-        </div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
-        </div>
-      </div>
-
-      <div class="fx-card" data-date="2026-08-15">
-        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 3 · 15/8/2026</span><span>Visitante</span></div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
-        </div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
-        </div>
-      </div>
-
-      <div class="fx-card" data-date="2026-08-22">
-        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 4 · 22/8/2026</span><span>Visitante</span></div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
-        </div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
-        </div>
-      </div>
-
-      <div class="fx-card" data-date="2026-08-29">
-        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 5 · 29/8/2026</span><span>Visitante</span></div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
-        </div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
-        </div>
-      </div>
-
-      <div class="fx-card" data-date="2026-09-05">
-        <div class="fx-head"><span>Local</span><span class="fx-date">Fecha 6 · 5/9/2026</span><span>Visitante</span></div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--forest);"></i>Slytherin</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--scarlet);"></i>Gryffindor</span>
-        </div>
-        <div class="fx-match">
-          <span class="fx-team"><i class="house-chip" style="--house-color:var(--gold);"></i>Hufflepuff</span>
-          <span class="fx-vs">vs.</span>
-          <span class="fx-team away"><i class="house-chip" style="--house-color:var(--azure);"></i>Ravenclaw</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="standings-head reveal">
-      <h3>Tabla de Posiciones</h3>
-    </div>
-    <div class="standings-list reveal">
-
-      <div class="sr-row sr-leader">
-        <div class="sr-rank">1</div>
-        <div class="sr-team"><i class="house-chip" style="--house-color:var(--scarlet);"></i><span>Gryffindor</span></div>
-        <div class="sr-stats">
-          <div><b>1</b><small>PJ</small></div>
-          <div><b>1</b><small>PG</small></div>
-          <div><b>0</b><small>PE</small></div>
-          <div><b>0</b><small>PP</small></div>
-        </div>
-        <div class="sr-pts"><b>150</b><small>Pts</small></div>
-      </div>
-
-      <div class="sr-row sr-leader">
-        <div class="sr-rank">2</div>
-        <div class="sr-team"><i class="house-chip" style="--house-color:var(--forest);"></i><span>Slytherin</span></div>
-        <div class="sr-stats">
-          <div><b>1</b><small>PJ</small></div>
-          <div><b>1</b><small>PG</small></div>
-          <div><b>0</b><small>PE</small></div>
-          <div><b>0</b><small>PP</small></div>
-        </div>
-        <div class="sr-pts"><b>150</b><small>Pts</small></div>
-      </div>
-
-      <div class="sr-row">
-        <div class="sr-rank">3</div>
-        <div class="sr-team"><i class="house-chip" style="--house-color:var(--azure);"></i><span>Ravenclaw</span></div>
-        <div class="sr-stats">
-          <div><b>1</b><small>PJ</small></div>
-          <div><b>0</b><small>PG</small></div>
-          <div><b>0</b><small>PE</small></div>
-          <div><b>1</b><small>PP</small></div>
-        </div>
-        <div class="sr-pts"><b>0</b><small>Pts</small></div>
-      </div>
-
-      <div class="sr-row">
-        <div class="sr-rank">4</div>
-        <div class="sr-team"><i class="house-chip" style="--house-color:var(--gold);"></i><span>Hufflepuff</span></div>
-        <div class="sr-stats">
-          <div><b>1</b><small>PJ</small></div>
-          <div><b>0</b><small>PG</small></div>
-          <div><b>0</b><small>PE</small></div>
-          <div><b>1</b><small>PP</small></div>
-        </div>
-        <div class="sr-pts"><b>0</b><small>Pts</small></div>
-      </div>
-
-    </div>
-    <p class="standings-legend reveal">PJ: Partidos Jugados · PG: Partidos Ganados · PE: Partidos Empatados · PP: Partidos Perdidos · PTS: Puntos</p>
-  </div>
-</section>
-
-<!-- ============ ROL MASTER ============ -->
-<section class="section on-parchment" id="arbitro">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow" style="justify-content:center;">§ 8</p>
-      <h2>El Rol Máster</h2>
-      <p class="lede">Dirige, arbitra y narra. Su palabra resuelve lo que el reglamento no contempla.</p>
-    </div>
-    <div class="rm-grid reveal">
-      <ul class="rm-list">
-        <li>Lleva el marcador y controla la posesión de la Quaffle.</li>
-        <li>Resuelve todas las tiradas enfrentadas de cada turno.</li>
-        <li>Elige la ubicación secreta de la Snitch al comienzo de cada ronda y entrega la pista correspondiente después de los turnos.</li>
-        <li>Resuelve cualquier situación no contemplada expresamente por este reglamento.</li>
-        <li>Narra brevemente el resultado de las acciones para mantener el ritmo del partido.</li>
-      </ul>
-      <div class="framed victory-box">
-        <div class="c2"></div>
-        <h4>Condiciones de victoria</h4>
-        <p style="margin-bottom:10px;">El partido termina cuando se completan las cinco rondas, o cuando un Buscador atrapa la Snitch Dorada.</p>
-        <p style="margin:0;">Resulta vencedor el equipo con más puntos al finalizar el encuentro.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <svg class="fsnitch" viewBox="0 0 100 100" aria-hidden="true">
-      <ellipse cx="50" cy="50" rx="10" ry="10" fill="none" stroke="currentColor" stroke-width="3"/>
-      <path d="M40 45 C20 25, 5 30, 2 45 C5 55, 22 55, 40 52 Z" fill="currentColor" opacity="0.7"/>
-      <path d="M60 45 C80 25, 95 30, 98 45 C95 55, 78 55, 60 52 Z" fill="currentColor" opacity="0.7"/>
-    </svg>
-    <div class="fmark">HOGWARTS HETNE</div>
-    <div class="fnote">Reglamento oficial · Torneo de Quidditch de Rol · Sistema Copa de Hogwarts</div>
-  </div>
-</footer>
-
-<!-- ============ DICE ROLLER MODAL ============ -->
-<span id="dado" aria-hidden="true" style="position:relative;top:-70px;display:block;"></span>
-<div class="dice-modal-overlay" id="diceOverlay" aria-hidden="true">
-  <div class="dice-modal framed" role="dialog" aria-modal="true" aria-labelledby="diceTitle">
-    <div class="c2"></div>
-    <button class="dice-close" id="diceClose" aria-label="Cerrar lanzador de dados">×</button>
-    <p class="eyebrow" style="justify-content:center;">Las Cuatro Casas</p>
-    <h3 id="diceTitle">Lanzador de d20</h3>
-    <div class="training-toggle">
-      <label class="switch">
-        <input type="checkbox" id="trainingModeToggle">
-        <span class="slider"></span>
-      </label>
-      <span class="training-label">Modo entrenamiento</span>
-    </div>
-    <div class="dice-stage" id="diceStage">
-      <svg id="diceSvg" viewBox="0 0 100 100" aria-hidden="true">
-        <polygon class="dice-face" points="50,4 92,28 50,50" fill="#c9a13b"/>
-        <polygon class="dice-face" points="50,4 8,28 50,50" fill="#c9a13b"/>
-        <polygon class="dice-face" points="92,28 92,72 50,50" fill="#c9a13b"/>
-        <polygon class="dice-face" points="8,28 8,72 50,50" fill="#c9a13b"/>
-        <polygon class="dice-face" points="50,96 92,72 50,50" fill="#c9a13b"/>
-        <polygon class="dice-face" points="50,96 8,72 50,50" fill="#c9a13b"/>
-        <polygon id="diceOutline" points="50,4 92,28 92,72 50,96 8,72 8,28" fill="none" stroke="#f0d488" stroke-width="2.4"/>
+<div class="stage" id="screenIntro">
+  <div class="title-block">
+    <div class="strike-wrap" id="strikeWrap">
+      <span class="text1">Estrategias de Quidditch</span>
+      <svg class="scribble-svg" viewBox="0 0 400 90" preserveAspectRatio="none">
+        <path class="scribble-path scribble-1" d="M8,48 C60,18 120,62 180,30 C240,4 300,58 392,40" />
+        <path class="scribble-path scribble-2" d="M14,58 C90,66 160,20 230,50 C290,72 340,26 386,52" />
       </svg>
-      <div class="dice-result" id="diceResult">–</div>
     </div>
-    <ul class="dice-history" id="diceHistory"></ul>
-    <div class="dice-houses" aria-hidden="true">
-      <span style="background:#7a1620;"></span>
-      <span style="background:#1c4a37;"></span>
-      <span style="background:#1b2c56;"></span>
-      <span style="background:#c9a13b;"></span>
-    </div>
-    <button class="btn solid" id="diceRollBtn">Lanzar</button>
+
+    <h1 class="text2" id="text2"></h1>
+  </div>
+
+  <div class="intro-btns">
+    <button class="read-btn" id="readBtn">
+      <span>Leer</span><span class="flecha">&#8594;</span>
+    </button>
+    <button class="read-btn" id="lastPageBtn">
+      <span>Ir a la última página</span><span class="flecha">&#8594;</span>
+    </button>
   </div>
 </div>
 
-<button class="dice-fab" id="diceFab" aria-label="Abrir lanzador de dados">
-  <svg viewBox="0 0 100 100" aria-hidden="true">
-    <g class="dice-fab-spin">
-      <polygon points="50,4 92,28 92,72 50,96 8,72 8,28" fill="none" stroke="currentColor" stroke-width="5"/>
-      <polygon points="50,4 92,28 50,50" fill="currentColor" opacity=".12"/>
-      <polygon points="50,4 8,28 50,50" fill="currentColor" opacity=".06"/>
-      <polygon points="92,28 92,72 50,50" fill="currentColor" opacity=".09"/>
-      <polygon points="8,28 8,72 50,50" fill="currentColor" opacity=".03"/>
-      <polygon points="50,96 92,72 50,50" fill="currentColor" opacity=".14"/>
-      <polygon points="50,96 8,72 50,50" fill="currentColor" opacity=".07"/>
+<div id="screenReader">
+  <div id="darkOverlay"></div>
+  <svg id="crackOverlay" preserveAspectRatio="none"></svg>
+  <canvas id="brumaCanvas"></canvas>
+  <svg id="brumaBlackSVG" viewBox="0 0 640 640" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <filter id="turbBlackJournal" x="-60%" y="-60%" width="220%" height="220%">
+        <feTurbulence type="turbulence" baseFrequency="0.02 0.03" numOctaves="2" seed="19" result="noiseJournal">
+          <animate attributeName="baseFrequency" dur="0.9s" values="0.02 0.03;0.05 0.01;0.015 0.04;0.02 0.03" repeatCount="indefinite"/>
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noiseJournal" scale="46"/>
+      </filter>
+    </defs>
+    <g id="journalBlackGroup">
+      <circle id="journalBlackMass" cx="320" cy="320" r="92" fill="#030105" filter="url(#turbBlackJournal)">
+        <animate attributeName="r" values="92;104;88;98;92" dur="3.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="320" cy="320" r="92" fill="none" stroke="#4a0910" stroke-width="0.6" opacity="0.35" filter="url(#turbBlackJournal)"/>
     </g>
-    <text x="50" y="56" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="20" font-weight="700" fill="currentColor">D20</text>
   </svg>
-</button>
 
-<div class="credit-bar">
-  <span class="lbl">Creado por</span>
-  <a href="https://www.instagram.com/wood_no_descansa/" target="_blank" rel="noopener noreferrer">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
-    @wood_no_descansa
-  </a>
+  <div class="water-drops" id="waterDrops"></div>
+  <div class="petalos-jazmin" id="jazminPetalos"></div>
+
+  <span class="page-counter" id="pageCounter"></span>
+
+  <div class="journal-page" id="journalPage">
+    <h2 class="entry-date" id="entryDate"></h2>
+    <div class="entry-body" id="entryBody"></div>
+    <button class="read-btn visible nav-btn" id="navBtn">
+      <span>Ver página siguiente</span><span class="flecha">&#8594;</span>
+    </button>
+  </div>
 </div>
 
 <script>
-// star field
-(function(){
-  const stars = document.getElementById('stars');
-  const n = 60;
-  for(let i=0;i<n;i++){
-    const s = document.createElement('span');
-    s.style.left = Math.random()*100+'%';
-    s.style.top = Math.random()*100+'%';
-    s.style.animationDelay = (Math.random()*4)+'s';
-    stars.appendChild(s);
-  }
-})();
+  const texto2 = "Bitácora de Oliver Wood";
+  const contenedor = document.getElementById('text2');
+  const strikeWrap = document.getElementById('strikeWrap');
+  const readBtn = document.getElementById('readBtn');
+  const lastPageBtn = document.getElementById('lastPageBtn');
 
-// star field (sección Fixture)
-(function(){
-  const stars = document.getElementById('fxStars');
-  if(!stars) return;
-  const n = 40;
-  for(let i=0;i<n;i++){
-    const s = document.createElement('span');
-    s.style.left = Math.random()*100+'%';
-    s.style.top = Math.random()*100+'%';
-    s.style.animationDelay = (Math.random()*4)+'s';
-    stars.appendChild(s);
-  }
-})();
+  // delays base (ms), en sintonía con las animaciones CSS del texto 1
+  const inicioEscritura = 1550; // cuando empieza a "escribirse" el texto 2
+  const pasoEntreLetras = 65;
 
-// ============ FIXTURE: fechas jugadas y próxima fecha ============
-(function(){
-  const cards = document.querySelectorAll('.fx-card[data-date]');
-  if(!cards.length) return;
+  let letras = [];
+  let i = 0;
+  const palabras = texto2.split(' ');
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  palabras.forEach((palabra, pIdx) => {
+    // cada palabra se envuelve en un span "sellado" (nowrap) para que el
+    // navegador solo pueda saltar de línea ENTRE palabras, nunca dentro de una
+    const wordWrap = document.createElement('span');
+    wordWrap.classList.add('word');
 
-  let nextCard = null;
-  let nextDate = null;
+    [...palabra].forEach((ch) => {
+      const span = document.createElement('span');
+      span.textContent = ch;
+      span.classList.add('letter');
 
-  cards.forEach(card => {
-    const parts = card.dataset.date.split('-').map(Number);
-    const cardDate = new Date(parts[0], parts[1] - 1, parts[2]);
+      const rot = (Math.random() * 7 - 3.5).toFixed(2) + 'deg';
+      const ty = (Math.random() * 11 - 5.5).toFixed(1) + 'px';
+      const delay = (inicioEscritura + i * pasoEntreLetras) + 'ms';
+      const tdur = (2.4 + Math.random() * 1.6).toFixed(2) + 's';
+      const tdelay = (inicioEscritura + i * pasoEntreLetras + 450) + 'ms';
 
-    if(cardDate < today){
-      card.classList.add('fx-played');
-      const tag = document.createElement('span');
-      tag.className = 'fx-played-tag';
-      tag.textContent = 'Jugada';
-      card.appendChild(tag);
-    } else if(!nextDate || cardDate < nextDate){
-      nextDate = cardDate;
-      nextCard = card;
+      span.style.setProperty('--rot', rot);
+      span.style.setProperty('--ty', ty);
+      span.style.setProperty('--delay', delay);
+      span.style.setProperty('--tdur', tdur);
+      span.style.setProperty('--tdelay', tdelay);
+
+      wordWrap.appendChild(span);
+      letras.push(span);
+      i++;
+    });
+
+    contenedor.appendChild(wordWrap);
+
+    // espacio real entre palabras (aquí sí puede saltar la línea)
+    if (pIdx < palabras.length - 1) {
+      contenedor.appendChild(document.createTextNode(' '));
+      i++;
     }
   });
 
-  if(nextCard){
-    nextCard.classList.add('fx-next');
-    const tag = document.createElement('span');
-    tag.className = 'fx-next-tag';
-    tag.textContent = 'Próxima fecha';
-    nextCard.appendChild(tag);
-  }
-})();
-
-// nav toggle (mobile)
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
-navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
-
-// scroll reveal
-const revealEls = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add('is-visible');
-      io.unobserve(entry.target);
-    }
+  // disparar impacto y desvanecido del texto 1
+  requestAnimationFrame(() => {
+    strikeWrap.classList.add('impacto');
+    setTimeout(() => strikeWrap.classList.add('desvanecido'), 10);
   });
-}, { threshold: 0.15 });
-revealEls.forEach(el => io.observe(el));
 
-// tactical card flip for touch/keyboard
-document.querySelectorAll('.tcard').forEach(card => {
-  card.addEventListener('click', () => card.classList.toggle('flipped'));
-  card.addEventListener('keypress', (e) => { if(e.key === 'Enter' || e.key === ' '){ card.classList.toggle('flipped'); } });
-});
+  // mostrar boton cuando termina la ultima letra
+  const tiempoTotal = inicioEscritura + (texto2.length - 1) * pasoEntreLetras + 450 + 400;
+  setTimeout(() => {
+    readBtn.classList.add('visible');
+    lastPageBtn.classList.add('visible');
+  }, tiempoTotal);
 
-// ============ DICE ROLLER (d20 de las cuatro casas) ============
-(function(){
-  const overlay = document.getElementById('diceOverlay');
-  const openLink = document.getElementById('diceNavLink');
-  const diceFab = document.getElementById('diceFab');
-  const closeBtn = document.getElementById('diceClose');
-  const rollBtn = document.getElementById('diceRollBtn');
-  const diceSvg = document.getElementById('diceSvg');
-  const faces = document.querySelectorAll('.dice-face');
-  const outline = document.getElementById('diceOutline');
-  const resultEl = document.getElementById('diceResult');
-  const historyEl = document.getElementById('diceHistory');
-  const trainingToggle = document.getElementById('trainingModeToggle');
+  readBtn.addEventListener('click', () => {
+    abrirLector();
+  });
 
-  const houses = [
-    { name:'Gryffindor', fill:'#7a1620', stroke:'#e0a1a8' },
-    { name:'Slytherin',  fill:'#1c4a37', stroke:'#8fd6b4' },
-    { name:'Ravenclaw',  fill:'#1b2c56', stroke:'#9db3e8' },
-    { name:'Hufflepuff', fill:'#c9a13b', stroke:'#f0d488' }
+  lastPageBtn.addEventListener('click', () => {
+    abrirLector(entradas.length - 1);
+  });
+
+  /* =========================================================
+     LECTOR DE LA BITÁCORA
+  ========================================================= */
+
+  const NIVEL_MAX = 10;
+
+  const entradas = [
+    {
+      fecha: "12 de abril, 2026",
+      nivel: 0,
+      parrafos: [
+        "Aurelio vino de visita hoy, como todas las semanas desde que tengo memoria de tenerlas. Nueve años y nueve meses. Podría decir «casi diez» pero prefiero la cifra exacta, es más honesto.",
+        "La sesión fue rutinaria. Digo esto sin cinismo: rutinaria es la palabra correcta. Él se sienta, yo cierro los ojos, y entra. No hay dolor en eso, o no debería haberlo si hice bien mi trabajo durante la semana. Aurelio revisa los espejos uno por uno, comprobando que las salvaguardas sigan en pie. Es un chequeo, nada más. Como cuando uno revisa que las escobas del equipo estén bien encantadas antes de un partido.",
+        "Voy a describir la habitación, ya que en algún momento voy a olvidar cómo se siente escribir sobre esto con naturalidad. Es un espacio circular, sin techo visible, con espejos de distintos tamaños incrustados en las paredes como si fueran ventanas. Cada uno contiene algo: una escena, una sensación, un nombre. Algunos están apagados, otros brillan. Puedo caminar entre ellos, girarlos, esconderlos detrás de otros si hace falta. Después de casi diez años haciendo esto una vez por semana, ya no lo pienso como magia. Lo pienso como orden. Ordenar es lo único que sé hacer bien con lo que tengo adentro.",
+        "Hoy Aurelio me preguntó, como hace cada tanto, si quería hablar del prado. Le dije que sí, brevemente, aunque no hay mucho que decir que no sepa ya. Recuerdo el pasto. Recuerdo a mi tío señalando algo en el cielo, antes. Después hay un espejo que no se abre del todo: sé que ahí adentro hay mortífagos, sé que hubo legeremancia, sé que me dejaron marcas que no son físicas. Pero no sé quiénes eran. No sé qué buscaban. No sé, ni siquiera, cuánto duró. Aurelio dice que es mejor así, que ese espejo está sellado por una razón, y yo le creo, porque confío en él más de lo que confío en mis propios recuerdos.",
+        "Lo único que no necesita espejo es el quidditch. No sé explicarlo mejor que así: cuando vuelo, no tengo que ordenar nada. No hay nada que ordenar. Es el único lugar donde no siento que estoy vigilando algo. Tal vez por eso sigue generándome esto que otros llamarían pasión y yo prefiero llamar, simplemente, alivio."
+      ]
+    },
+    {
+      fecha: "3 de junio, 2026",
+      nivel: 0,
+      parrafos: [
+        "Dos copas como capitán de Gryffindor y ahora esto: Apex Legends me contrató como entrenador. Cuando llegó la carta no supe bien qué sentir, lo cual no es novedad, pero por un segundo hubo algo parecido al entusiasmo. El quidditch afuera del castillo, en serio, con jugadores que ya no son chicos aprendiendo a volar.",
+        "No voy a extenderme sobre el entusiasmo porque no duró.",
+        "En las instalaciones del club me crucé con alguien de mi pasado. No voy a poner el nombre acá. Prefiero no hacerlo, aunque suene raro viniendo de alguien que anota todo lo demás con tanto detalle. Digamos que fue suficiente para que esta semana, cuando Aurelio entró a revisar los espejos, los encontrara temblando. No es una forma de hablar: tiemblan, literal, como si algo los golpeara desde el otro lado del vidrio. Algunos estaban corridos de lugar, otros directamente no los encontraba donde deberían estar. Aurelio tardó el doble de lo normal. No dijo mucho, pero anotó algo en su libreta, cosa que no suele hacer.",
+        "Pasé varios días dándole vueltas a esto de una manera que no me es habitual. Al final decidí pedir el traslado a un puesto que no implicara estar ahí todas las semanas, algo más administrativo, ligado a la organización de torneos en vez de al entrenamiento directo. Le dije al club que era por una cuestión de tiempos. No es mentira, pero tampoco es toda la verdad."
+      ]
+    },
+    {
+      fecha: "8 de julio, 2026",
+      nivel: 0,
+      parrafos: [
+        "Hoy pasó algo que todavía no sé cómo anotar bien.",
+        "Estaba cruzando el patio cuando escuché a alguien cantando, mal, mal en el buen sentido, una canción de Oasis. Me llamó la atención porque no conozco muchos magos de sangre pura que sepan quiénes son Oasis, y menos que se sepan la letra completa de memoria. Era una chica de Slytherin, sentada sola contra la pared, con el uniforme todavía puesto a pesar de que ya habían terminado las clases.",
+        "Me acerqué. No tengo una buena explicación de por qué. No fue una decisión pensada, fue más parecido a lo que pasa con un imán: no elegís acercarte, simplemente pasa. Hablamos un rato. Se llama Tabatha. No voy a fingir que entendí lo que sentí, porque ya sabemos que eso no es algo que yo pueda hacer con claridad. Pero anoto esto igual, para el registro: supe, de alguna forma que no puedo justificar del todo, que esta persona iba a importar.",
+        "Unos días después me regaló una escoba. No una escoba cualquiera, una buena, de las que uno elige después de investigar mucho. Fue la primera vez en años que alguien se interesaba en lo que a mí me interesa, sin que yo tuviera que pedirlo o explicarlo.",
+        "Esa noche, cuando Aurelio revisó los espejos, algunos de los que tienen que ver con el quidditch estaban más luminosos que de costumbre. Los que la incluyen a ella, también."
+      ]
+    },
+    {
+      fecha: "12 de julio, 2026",
+      nivel: 0,
+      parrafos: [
+        "Tabatha y yo somos pareja. Lo escribo así, sin vueltas, porque es lo más simple que puedo decir sobre algo que no tengo forma de complicar con explicaciones que no me salen.",
+        "Fue ella la que me insistió con organizar el torneo. Yo tenía la idea dando vueltas hace tiempo, pero nunca la había puesto en marcha en serio. Ella me preguntó por qué no, y no tuve una buena respuesta, así que empecé.",
+        "Esta semana no dormí casi nada, pero por primera vez en mucho tiempo eso no se sintió como los otros insomnios. Me quedé sentado hasta tarde en la oficina de capitanes dibujando los folletos a mano, probando colores, tachando y volviendo a empezar. Los repartí por el castillo con un hechizo simple, los mandé a volar por los pasillos como si fueran hojas de otoño, algunos chocaron contra las armaduras y tuve que ir a despegarlos. Caminé por Hogwarts esta semana con una decisión que no reconozco del todo como mía, pero que tampoco quiero cuestionar.",
+        "La sesión de oclumancia de esta semana no se pudo hacer. Aurelio llegó, lo intentó, y a los pocos minutos me dijo que había demasiada energía dando vueltas como para revisar nada con propiedad. No insistió. Se fue temprano.",
+        "La verdad es que ni siquiera sentí los espejos esta semana. No es que hayan desaparecido, sé que siguen ahí. Simplemente dejaron de importarme. Todo es el torneo. Todo es quidditch."
+      ]
+    },
+    {
+      fecha: "Hoja arrancada del cuaderno",
+      nivel: 1,
+      arrancada: true,
+      parrafos: ["Hoja arrancada del cuaderno.", "Escena perdida."]
+    },
+    {
+      fecha: "Sin fecha visible — tinta corrida",
+      nivel: 2,
+      parrafos: [
+        "Últimamente me cuesta más controlar las barreras de lo habitual. No es nada grave, o eso me digo. Dolores de cabeza que aparecen sin aviso, más seguido de lo normal. Un par de veces falté a clase directamente, no porque no pudiera levantarme, sino porque sabía que no iba a poder seguir la mitad de lo que se dijera. Cuando sí voy, termino llenando los márgenes del cuaderno con anotaciones de jugadas de quidditch, formaciones, ángulos de ataque. Es lo único que me ordena la cabeza cuando algo adentro empieza a desacomodarse.",
+        "No se lo mencioné a Aurelio todavía. Voy a hacerlo la próxima sesión. Por ahora prefiero anotarlo acá, para tener registro de cuándo empezó."
+      ]
+    },
+    {
+      fecha: "14 de julio, 2026",
+      nivel: 2,
+      parrafos: [
+        "Tabatha me contó que está estudiando con Ollivander. Quiere hacer varitas, en serio, no como hobby. Cuando me lo dijo sentí algo raro, algo que no supe nombrar, ni siquiera con la práctica que tengo nombrando lo poco que logro sentir. No fue malestar. Tampoco alegría, exactamente. Algo entre las dos cosas, tal vez, o ninguna.",
+        "Me llevó a mostrarme materiales y núcleos. Habló durante casi una hora sin parar, con las manos moviéndose todo el tiempo, señalando cajas, comparando texturas. Me gusta verla así. Se nota clarísimo lo que siente, algo que a mí me cuesta tanto que verlo en otra persona me resulta, no sé, necesario. Como mirar algo que a mí me falta pero que al menos existe cerca.",
+        "Esa misma noche entré al despacho de Pociones y me llevé una caja con materiales que sabía que a ella le iban a servir. No se lo dije. No sé bien por qué lo hice tan en silencio, salvo que hacerlo en silencio se sintió correcto."
+      ]
+    },
+    {
+      fecha: "Hoja arrancada del cuaderno",
+      nivel: 3,
+      arrancada: true,
+      parrafos: ["Hoja arrancada del cuaderno.", "Escena perdida."]
+    },
+    {
+      fecha: "17 de julio, 2026",
+      nivel: 4,
+      parrafos: [
+        "Cada vez me cuesta más controlar las barreras. Duermo poco, y cuando digo poco quiero decir casi nada. Paso varias noches encerrado en la oficina de capitanes, a veces escribiendo estrategias que después ni reviso, a veces simplemente dando vueltas en círculos porque el dolor de cabeza no me deja quedarme quieto. No le encuentro un patrón todavía. Solo sé que pasa más seguido."
+      ]
+    },
+    {
+      fecha: "19 de julio, 2026",
+      nivel: 5,
+      parrafos: [
+        "Sigo sin poder controlar las barreras del todo. Hoy dos chicos de Ravenclaw me nombraron algo que aparentemente pasó la semana pasada, una conversación en las gradas, y yo no tengo ningún recuerdo de eso. Ninguno. Actué como si me acordara, asentí, dije algo genérico. No sé qué otra cosa hacer en esos momentos."
+      ]
+    },
+    {
+      fecha: "22 de julio, 2026",
+      nivel: 6,
+      parrafos: [
+        "Tabatha me contó hoy que el Señor Tenebroso la quiere reclutar. Que le llegó un contacto, indirecto, pero real. Lo dijo con una calma que a mí me costó sostener. No sé bien por qué esto me perturbó tanto, no sé nombrar la sensación, pero sé, con una certeza que no es habitual en mí, que no quiero que ella acepte.",
+        "Cuando volví a casa esa noche me puse a revisar grimorios viejos de mi padre y de mi tío, cosas que nunca había abierto porque sabía que no tenían nada que ver con quidditch y por eso nunca me habían importado. Estaba buscando algo sobre varitas, algo que sirviera para entender mejor lo que Tabatha está estudiando, tal vez para saber qué regalarle. En medio de todo eso encontré unas notas sueltas sobre mortífagos, metidas entre páginas que no correspondían.",
+        "Entre ellas había una carta. La había escrito mi tío, dirigida a un auror, contando que un libro llamado «Núcleos de Sangre», manuscrito confiscado de clase XXXXX, había sido robado por la familia Nott y estaba guardado en la mansión de ellos. Según la carta, tenía información importante sobre la fabricación de varitas.",
+        "No sé todavía qué voy a hacer con esto. Pero lo anoto."
+      ]
+    },
+    {
+      fecha: "26 de julio, 2026",
+      nivel: 7,
+      parrafos: [
+        "Entré a la mansión Nott anoche. No voy a detallar cómo, por las dudas de que alguien más lea esto alguna vez. Logré sacar el libro. Casi no lo cuento: hubo mortífagos ahí, más de los que esperaba, y por poco me agarran. Me desmayé, o eso creo, porque no tengo ningún recuerdo de cómo salí de ahí. Nada. Un espacio en blanco entre el momento en que casi me atrapan y el momento en que Tabatha me encontró tirado afuera de §§2§§.",
+        "Después, juntos, leímos el libro. Los mortífagos querían fabricar núcleos de varitas con §§4§§. No voy a escribir acá lo que entendimos, todavía no. Necesito pensarlo más."
+      ]
+    },
+    {
+      fecha: "27 de julio, 2026",
+      nivel: 8,
+      parrafos: [
+        "Las barreras siguen sin responder como deberían. Cada vez son más los que me nombran cosas que no recuerdo haber vivido. Me desconecto en medio de conversaciones, a veces sin darme cuenta hasta que alguien me pregunta si estoy bien. Estoy más irritable de lo que me gustaría admitir. Me peleé con varios alumnos esta semana, incluidos jugadores de mis propios equipos, por cosas que en otro momento no me hubieran movido un pelo."
+      ]
+    },
+    {
+      fecha: "28 de julio, 2026",
+      nivel: 9,
+      parrafos: [
+        "No controlo bien lo que pienso ni lo que siento. Estoy desbordado, esa es la palabra, aunque me cueste usarla sobre mí mismo. Lo que hice, entrar a esa mansión, robar ese libro, fue impulsivo, y lo sé. Nos puso en riesgo a los dos, no solo a mí. Estoy preocupado por Tabatha de una forma que no tengo cómo ordenar en un espejo, porque no encuentro cuál es el espejo correcto para esto. No sé qué hacer con lo que siento. Ni siquiera sé si lo que tengo adentro se puede llamar así."
+      ]
+    },
+    {
+      fecha: "Hoja arrancada del cuaderno",
+      nivel: 10,
+      arrancada: true,
+      parrafos: ["Hoja arrancada del cuaderno.", "Escena perdida."]
+    },
+    {
+      fecha: "31 de julio, 2026",
+      especial: "bruma",
+      parrafos: [
+        "Sesión con Aurelio. Tardó más de lo habitual.",
+        "Me dijo que hubo un incidente. Que perdí el control en el campo, que hubo gente buscándome, que él me trajo de vuelta. No tengo registro de nada de eso. Es un espacio en blanco, como otros que ya vengo anotando desde hace semanas, solo que más grande. No le doy más vueltas de las necesarias.",
+        "Encontró varios espejos rotos, dijo. Los está arreglando. Confío en que sabe lo que hace, como siempre.",
+        "Tengo frío en el pecho a veces, sin motivo. Aparece y se va. No se lo mencioné. No parece urgente.",
+        "Mañana retomo las prácticas. Hace falta ordenar formaciones para lo que queda del calendario, ver quién puede volar y quién no después de estos días. Es lo que corresponde hacer ahora.",
+        "Nada más para anotar hoy."
+      ]
+    },
+    {
+      fecha: "2 de agosto",
+      especial: "bruma",
+      parrafos: [
+        "Desde ayer no puedo dejar de pensar en eso.",
+        "Salí distraído del cuarto de Jeon con el frasco de jazmines (que le iba a regalar a §§1§§) en la mano, pensando que Aurora había vuelto antes de lo previsto. Error mío: no era mi hermana la que estaba sentada ahí mirando el cielo, sino una rubia que jamás había visto en el castillo. Le dije que la había confundido y, para peor, la primera vez le erré el nombre. Tabatha. Con hache. Me lo repitió como tres veces distintas hasta que se cansó y me dijo que la llame como quiera.",
+        "Se hizo llamar amiga de Riddle, me dijo que tenía un permiso firmado por Snape para andar en la torre. Los slytherin a veces creen que los demás somos idiotas... pero como me dieron intriga sus motivos, le hice pensar que le creí. Terminé contándole que la torre es de mi hermana y que es mi lugar favorito del castillo. Ella se rió de mi ego... Imaginenlo, un slytherin riendose del ego de alguien. Debería pedir un deseo.",
+        "Hablamos de todo un poco: de los jazmines que le robé al invernadero tres, de Herbología, de una canción muggle que puso — Olivia Rodrigo, dijo — y de esa constelación rara que tiene forma de guitarra y corazón, la que ni Aurora tiene registrada en ningún catálogo. Le mostré el reporte que armé sobre eso. Ninguna explicación lógica. Solo la vemos ella y yo. «Es producto de un hechizo», escribí, y no me saco esa frase de la cabeza. Seguiré investigando sobre esto.",
+        "Cuando escuchamos los pasos de Aurora acercándose, entré en pánico — Tabatha no tenía nota para estar ahí y yo tampoco tenía forma de explicar por qué estaba con ella. Terminé haciéndole un encantamiento burbuja y tirándola por la ventana. Gritó como loca pero funcionó.",
+        "Anotación para mí mismo: la próxima vez, avisar antes de tirar gente por la ventana. Y averiguar quién es en serio esta Tabatha Avery, porque algo me dice que no la vi por última vez."
+      ]
+    },
+    {
+      fecha: "3 de agosto",
+      especial: "bruma",
+      parrafos: [
+        "No fue un buen día.",
+        "Me castigaron por pelearme en Herbología. No voy a anotar los detalles del incidente —no es relevante para esta bitácora— pero sí el resultado: todos están enojados conmigo. La profesora, algunos compañeros, probablemente alguien más que todavía no me enteré.",
+        "Debería importarme. Lo sé de forma teórica, como sé que el fuego quema sin necesitar tocarlo. Pero no siento nada al respecto. Ni culpa, ni vergüenza, ni el peso de que todo el mundo esté mirándome distinto hoy. Nada.",
+        "Es lo habitual. Lo anoto igual, porque toda esta investigación arrancó de la idea de que mi estado emocional está fluctuando de formas extrañas últimamente.",
+        "Me crucé con la rubia rara en el pasillo, cerca de la torre. Me preguntó por la constelación —me pidió que le avise si encontraba algo nuevo. Le dije que sí.",
+        "Subí a la torre. Conteo de estrellas: cinco, no seis. Falta Éterna (ε Tbt).",
+        "Repetí el conteo cuatro veces desde tres posiciones distintas antes de aceptar el dato. No hay error de instrumental ni de percepción.",
+        "Al actualizar la tabla de distancias, el problema se multiplica: δ–ε queda como APAGADA (sin datos), porque el punto de referencia ya no está. Como consecuencia, ε–ζ también queda SIN DATOS.",
+        "No perdí una estrella. Perdí dos cálculos completos. No tengo explicación para por qué desapareció justo esa, ni por qué sin ningún aviso previo en mis registros de luminosidad.",
+        "Anoto sin querer forzar la conclusión, pero no puedo evitar cruzar los dos datos del día: el castigo, la indiferencia total frente a algo que debería dolerme, y una estrella que se apaga sin razón aparente. No sé si están conectados. No sé por qué sospecho que sí.",
+        "Volví a la biblioteca. Revisé Historia de la Astronomía: Un relato del mundo mágico buscando cualquier mención a constelaciones no catalogadas o hechizos de proyección estelar. Nada útil. Solo una línea al pasar: que Astronomía se enseña en Hogwarts y en la Escuela de Magia Uagadou.",
+        "Tercera vez en dos semanas que ese nombre me aparece sin que lo esté buscando. Ya no lo tomo como casualidad.",
+        "Recordé algo que la profesora Fénix mencionó de pasada hace un tiempo: que en Uagadou hay gatos capaces de percibir lo que un mago siente, incluso si es Oclumante. No leen la mente. Leen lo que la mente esconde de sí misma —o lo que esconde de mí mismo, si es que queda algo que esconder.",
+        "Tal vez es hora de tomar cartas en el asunto.",
+        "Si no siento nada desde hace tiempo, tal vez esos gatos sean la única forma de saber si hay algo ahí abajo o si simplemente no queda nada que sentir."
+      ]
+    },
+    {
+      fecha: "4 de agosto",
+      especial: "bruma",
+      efectoAgua: true,
+      parrafos: [
+        "Anoche no pasó. Juro que intenté. Quise, intenté con todas mis fuerzas sentir algo. No pude.",
+        "En eso estaba cuando mi compañera usual apareció, también con el mismo interrogante. ¿Cómo hacen dos personas que no sienten para sentir algo? No se puede, le respondí.",
+        "Cuando quise hablar más, simplemente había desaparecido bajo el agua oscura del lago. Como desaparece todo lo que a veces intenta acercarse. Consumido, como todo lo que toco.",
+        "Pude salvarla. Eso creo. ¿Cómo se salva a alguien que no siente?",
+        "No pude dormir después de eso. Pensé que todo había terminado pero escuché una extraña canción que no reconocí a lo lejos. La seguí… ¿Qué más podía hacer? Pero tampoco, ni los pétalos de jazmín que me dieron, ni el té relajante que me regalaron funcionó. A veces uno no tiene sueño y ya.",
+        "No dejo de pensar en el nombre.",
+        "Gregorovitch.",
+        "No lo conozco. Lo repito despacio, para mis adentros, para ver si al decirlo yo mismo se acomoda en algún lado, si encaja con algo, y no encaja con nada. No tengo un solo recuerdo con ese nombre adentro. No está en ningún espejo, no está en nada de lo que Aurelio me hizo repasar. Y sin embargo cuando lo escuché en el bosque algo adentro se movió. No como quien reconoce —como quien es sacudido.",
+        "Los espejos se agitaron.",
+        "No sé cómo explicar esto mejor de lo que ya me lo expliqué a mí mismo, así que lo dejo tal cual me llegó: en el momento exacto en que el bosque dijo ese nombre, sentí que algo dentro de mi cabeza —los espejos, los que uso para guardar y ordenar todo, los que Aurelio me enseñó a levantar hace tantos años que ya ni recuerdo la versión de mí que no los tenía— temblaron. Todos juntos, un instante, como si una piedra hubiera caído en el medio de un cuarto lleno de vidrio colgado del techo.",
+        "Le pregunté a la profesora Black si ella también lo había escuchado. Dijo que no.",
+        "Intenté hacer lo de siempre. Bajar, cerrar los ojos, caminar entre los espejos hasta encontrar alguno que tuviera guardado algo sobre ese nombre —una clase perdida, una conversación de pasillo, algo que hubiera escuchado sin registrar en su momento y que ahora, buscado, apareciera. Es lo que hago siempre que algo no cierra. Bajo y busco.",
+        "Esta vez no encontré espejos. Encontré una masa.",
+        "No sé nombrarla mejor. Es negra, no del negro de una sombra sino del negro de algo que ocupa lugar, que tiene peso, y estaba justo ahí, en el medio del camino que uso siempre para llegar a esa zona de la mente. La empujé —o intenté, con la misma técnica de siempre, la misma presión mental que uso para correr un espejo incómodo hacia un costado— y me empujó de vuelta. No es que no cediera. Es que respondió. Como si tuviera intención.",
+        "No terminé de buscar. No pude.",
+        "Continuamos el camino así, solo respirando, esperando que la masa se corriera sola o que yo encontrara el coraje de volver a empujar, y no pasó ninguna de las dos cosas.",
+        "Ya en el valle escuché una pregunta. ¿Qué heredaría un mago? Y antes de que pudiera pensar nada, antes de decidir si esa pregunta era para mí o simplemente el aire del lugar jugando con el sonido, una respuesta apareció en mi cabeza. No la busqué. No la armé yo. Estaba ahí de golpe, entera, como si alguien la hubiera dejado servida.",
+        "Núcleos de Sangre.",
+        "No sé de dónde salió eso. No sé por qué mi cabeza lo trajo así, tan rápido, tan sin esfuerzo, cuando para cualquier otra cosa tengo que bajar y buscar entre espejos con la masa negra empujándome de vuelta. Esto no lo busqué. Esto vino solo. Y eso me asusta más que la pregunta del valle.",
+        "Vos sos la llave.",
+        "¿Qué llave?",
+        "Lo escribo así, tal cual me quedó dando vueltas toda la noche, porque no tengo mejor forma de decirlo. No entiendo nada. No sé de qué puerta habla, no sé qué es lo que se supone que abro, no sé si soy la llave de algo bueno o de algo que ojalá se hubiera quedado cerrado.",
+        "Lo único que tengo es esto: una pregunta que no elegí escuchar, una respuesta que no elegí pensar, y una frase que no elegí que me dijeran. Nada de esta noche lo elegí yo. Y sin embargo todo pasó adentro mío, o cerca, o a través mío, no sé bien cómo decirlo todavía. Es que por primera vez en años intenté entrar a mi propia cabeza y algo de adentro no me dejó pasar.",
+        "Voy a intentar dormir. No creo que sirva de mucho."
+      ]
+    }
   ];
-  const TRAINING_STYLE = { fill:'#d9d9d9', stroke:'#8a8a8a' };
 
-  let rolling = false;
-  let colorTimer = null;
-  let cooldownTimer = null;
-  let trainingMode = false;
+  let indiceActual = 0;
 
-  const COOLDOWN_MS = 3 * 60 * 1000; // 3 minutos
-  const LS_HISTORY = 'hetneDiceHistory';
-  const LS_TRAINING = 'hetneDiceTrainingMode';
-  const LS_LAST_NORMAL_ROLL = 'hetneDiceLastNormalRoll'; // solo tiros SIN modo entrenamiento
-  const MAX_HISTORY = 3;
+  const screenIntro  = document.getElementById('screenIntro');
+  const screenReader = document.getElementById('screenReader');
+  const journalPage  = document.getElementById('journalPage');
+  const entryDateEl  = document.getElementById('entryDate');
+  const entryBodyEl  = document.getElementById('entryBody');
+  const navBtn       = document.getElementById('navBtn');
+  const pageCounter  = document.getElementById('pageCounter');
+  const darkOverlay  = document.getElementById('darkOverlay');
 
-  function formatTimestamp(date){
-    const pad = (n) => String(n).padStart(2, '0');
-    const d = pad(date.getDate());
-    const m = pad(date.getMonth() + 1);
-    const y = date.getFullYear();
-    const h = pad(date.getHours());
-    const min = pad(date.getMinutes());
-    const s = pad(date.getSeconds());
-    return `Tirada el ${d}/${m}/${y} a las ${h}:${min}:${s}`;
+  /* ---- generador de grietas (determinístico) ---- */
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
   }
 
-  function formatCountdown(ms){
-    const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
-    const mm = Math.floor(totalSeconds / 60);
-    const ss = String(totalSeconds % 60).padStart(2, '0');
-    return `Esperá ${mm}:${ss}`;
-  }
+  function construirGrietas(){
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.getElementById('crackOverlay');
+    svg.innerHTML = '';
+    const W = window.innerWidth, H = window.innerHeight;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
-  function houseByName(name){
-    return houses.find(h => h.name === name) || houses[0];
-  }
+    const rand = mulberry32(20260729);
+    const cx = W / 2, cy = H / 2;
+    const esquinas = [ {x:0,y:0}, {x:W,y:0}, {x:W,y:H}, {x:0,y:H} ];
 
-  function getHistory(){
-    try {
-      const raw = JSON.parse(localStorage.getItem(LS_HISTORY) || '[]');
-      return Array.isArray(raw) ? raw : [];
-    } catch(e){
-      return [];
-    }
-  }
+    esquinas.forEach(esquina => {
+      const ramasPorEsquina = 6;
+      for(let b=0; b<ramasPorEsquina; b++){
+        let x = esquina.x + (rand()-0.5) * W * 0.06;
+        let y = esquina.y + (rand()-0.5) * H * 0.06;
+        const anguloBase = Math.atan2(cy - esquina.y, cx - esquina.x);
+        let angulo = anguloBase + (rand()-0.5) * 0.9;
 
-  function renderHistory(history){
-    historyEl.innerHTML = '';
-    history.slice(0, MAX_HISTORY).forEach(entry => {
-      const li = document.createElement('li');
-      const val = document.createElement('span');
-      val.className = 'hv';
-      val.textContent = entry.value;
-      const label = document.createElement('span');
-      label.textContent = formatTimestamp(new Date(entry.at));
-      li.appendChild(val);
-      li.appendChild(label);
-      historyEl.appendChild(li);
+        const numSegs = 6 + Math.floor(rand()*4);
+        const largoTotal = Math.min(W,H) * (0.4 + rand()*0.2);
+        const largoSeg = largoTotal / numSegs;
+
+        for(let s=0; s<numSegs; s++){
+          angulo += (rand()-0.5) * 0.5;
+          const nx = x + Math.cos(angulo) * largoSeg * (0.7 + rand()*0.6);
+          const ny = y + Math.sin(angulo) * largoSeg * (0.7 + rand()*0.6);
+
+          const t = s / (numSegs - 1);
+          const umbral = Math.max(1, Math.round(t * NIVEL_MAX));
+          const grosor = 3.1 - t * 2.2;
+
+          const linea = document.createElementNS(svgNS, 'line');
+          linea.setAttribute('x1', x.toFixed(1));
+          linea.setAttribute('y1', y.toFixed(1));
+          linea.setAttribute('x2', nx.toFixed(1));
+          linea.setAttribute('y2', ny.toFixed(1));
+          linea.setAttribute('stroke-width', grosor.toFixed(2));
+          linea.classList.add('crack-seg');
+          linea.dataset.umbral = umbral;
+          svg.appendChild(linea);
+
+          if(s >= 2 && rand() < 0.28){
+            const anguloBif = angulo + (rand()-0.5) * 1.4;
+            const largoBif = largoSeg * (0.5 + rand()*0.6);
+            const fx = nx + Math.cos(anguloBif) * largoBif;
+            const fy = ny + Math.sin(anguloBif) * largoBif;
+            const bif = document.createElementNS(svgNS, 'line');
+            bif.setAttribute('x1', nx.toFixed(1));
+            bif.setAttribute('y1', ny.toFixed(1));
+            bif.setAttribute('x2', fx.toFixed(1));
+            bif.setAttribute('y2', fy.toFixed(1));
+            bif.setAttribute('stroke-width', (grosor*0.6).toFixed(2));
+            bif.classList.add('crack-seg');
+            bif.dataset.umbral = Math.min(NIVEL_MAX, umbral + 1);
+            svg.appendChild(bif);
+          }
+          x = nx; y = ny;
+        }
+      }
+    });
+
+    // esquirlas oscuras: se suman recién en niveles altos, tapando cada vez más pantalla
+    const esquirlas = [5,6,7,8,9,10];
+    esquinas.forEach((esquina, idx) => {
+      esquirlas.forEach(nivel => {
+        const alcance = Math.min(W,H) * (0.14 + (nivel/NIVEL_MAX) * 0.55);
+        const dirx = esquina.x === 0 ? 1 : -1;
+        const diry = esquina.y === 0 ? 1 : -1;
+        const p1 = esquina;
+        const p2 = { x: esquina.x + dirx*alcance*(0.6+rand()*0.4), y: esquina.y };
+        const p3 = { x: esquina.x, y: esquina.y + diry*alcance*(0.6+rand()*0.4) };
+        const p4 = { x: esquina.x + dirx*alcance*(0.32+rand()*0.35), y: esquina.y + diry*alcance*(0.32+rand()*0.35) };
+        const poly = document.createElementNS(svgNS, 'polygon');
+        poly.setAttribute('points', `${p1.x},${p1.y} ${p2.x},${p2.y} ${p4.x},${p4.y} ${p3.x},${p3.y}`);
+        poly.classList.add('crack-shard');
+        poly.dataset.umbral = nivel;
+        poly.style.setProperty('--op', (0.18 + (nivel/NIVEL_MAX)*0.55).toFixed(2));
+        svg.appendChild(poly);
+      });
     });
   }
 
-  function addToHistory(value, houseName, at){
-    const history = getHistory();
-    history.unshift({ value, house: houseName, at });
-    const trimmed = history.slice(0, MAX_HISTORY);
-    localStorage.setItem(LS_HISTORY, JSON.stringify(trimmed));
-    renderHistory(trimmed);
+  function aplicarNivel(nivel){
+    document.querySelectorAll('.crack-seg').forEach(el => {
+      const umbral = parseInt(el.dataset.umbral, 10);
+      if(umbral <= nivel){
+        const intensidad = Math.min(0.95, 0.45 + (nivel - umbral) * 0.06 + umbral * 0.03);
+        el.style.opacity = intensidad.toFixed(2);
+      } else {
+        el.style.opacity = 0;
+      }
+    });
+    document.querySelectorAll('.crack-shard').forEach(el => {
+      const umbral = parseInt(el.dataset.umbral, 10);
+      if(umbral <= nivel){
+        const base = parseFloat(el.style.getPropertyValue('--op')) || 0.4;
+        const crecimiento = Math.min(1, 0.55 + (nivel / NIVEL_MAX) * 0.6);
+        el.style.opacity = Math.min(0.92, base * crecimiento).toFixed(2);
+      } else {
+        el.style.opacity = 0;
+      }
+    });
+    darkOverlay.style.opacity = (nivel / NIVEL_MAX * 0.7).toFixed(2);
+    screenReader.style.setProperty('--nivel', nivel);
+    journalPage.style.filter =
+      `brightness(${(1 - nivel*0.045).toFixed(3)}) contrast(${(1 + nivel*0.02).toFixed(3)}) saturate(${(1 - nivel*0.05).toFixed(3)})`;
+    const desenfoque = Math.max(0, (nivel - 6) * 0.2).toFixed(2);
+    entryBodyEl.style.filter = `blur(${desenfoque}px)`;
+    entryBodyEl.style.opacity = nivel >= 9 ? '0.55' : (nivel >= 7 ? '0.78' : '1');
   }
 
-  // Pinta el dado: colores de las casas normalmente, o gris claro punteado en Modo entrenamiento.
-  function applyDiceStyle(h){
-    if(trainingMode){
-      faces.forEach(f => f.setAttribute('fill', TRAINING_STYLE.fill));
-      outline.setAttribute('stroke', TRAINING_STYLE.stroke);
-      outline.setAttribute('stroke-dasharray', '6,5');
+  /* ---- tachones: reemplazan texto entre corchetes por un garabato ilegible ---- */
+  function crearTachon(unidades){
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const w = 16 + unidades * 15;
+    const h = 15;
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    svg.setAttribute('width', w);
+    svg.setAttribute('height', h);
+    svg.classList.add('tachon-svg');
+
+    const trazos = [
+      `M2,${(h*0.55).toFixed(1)} C ${(w*0.18).toFixed(1)},${(h*0.12).toFixed(1)} ${(w*0.32).toFixed(1)},${(h*0.9).toFixed(1)} ${(w*0.5).toFixed(1)},${(h*0.42).toFixed(1)} C ${(w*0.68).toFixed(1)},${(h*0.02).toFixed(1)} ${(w*0.82).toFixed(1)},${(h*0.92).toFixed(1)} ${(w-2).toFixed(1)},${(h*0.5).toFixed(1)}`,
+      `M3,${(h*0.78).toFixed(1)} C ${(w*0.22).toFixed(1)},${(h*0.98).toFixed(1)} ${(w*0.4).toFixed(1)},${(h*0.22).toFixed(1)} ${(w*0.6).toFixed(1)},${(h*0.72).toFixed(1)} C ${(w*0.75).toFixed(1)},${(h*0.98).toFixed(1)} ${(w*0.88).toFixed(1)},${(h*0.3).toFixed(1)} ${(w-3).toFixed(1)},${(h*0.62).toFixed(1)}`
+    ];
+    trazos.forEach((d, i) => {
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', d);
+      path.classList.add('tachon-trazo');
+      if(i === 1) path.style.opacity = '0.55';
+      svg.appendChild(path);
+    });
+
+    const span = document.createElement('span');
+    span.className = 'tachon';
+    span.setAttribute('aria-label', 'texto ilegible');
+    span.appendChild(svg);
+    return span;
+  }
+
+  function construirParrafo(texto){
+    const frag = document.createDocumentFragment();
+    const regex = /§§(\d+)§§/g;
+    let lastIndex = 0;
+    let match;
+    while((match = regex.exec(texto)) !== null){
+      if(match.index > lastIndex){
+        frag.appendChild(document.createTextNode(texto.slice(lastIndex, match.index)));
+      }
+      frag.appendChild(crearTachon(parseInt(match[1], 10)));
+      lastIndex = regex.lastIndex;
+    }
+    if(lastIndex < texto.length){
+      frag.appendChild(document.createTextNode(texto.slice(lastIndex)));
+    }
+    return frag;
+  }
+
+  /* ---- bruma plateada + humo negro central: pagina final ---- */
+  let brumaCanvas = null;
+  let brumaCtx = null;
+  let brumaParticulas = [];
+  let brumaAnimId = null;
+  let pulsoValor = 0;      // 0 = calma, sube en cada pulso y decae solo
+  let pulsoProximo = 0;    // cuadros restantes hasta el siguiente pulso
+
+  let brumaBlackSVG = null;
+  let journalBlackGroupEl = null;
+
+  let mezclaRojo = 0;             // 0 = niebla plateada, 1 = niebla completamente rojiza
+  let intensidadLatido = 1;       // multiplicador del pulso de la masa negra
+  let intensidadLatidoObjetivo = 1;
+
+  /* ---- efecto agua: gotas + petalos de jazmin, con reacciones al scroll ---- */
+  let waterDropsEl = null;
+  let jazminEl = null;
+  let efectoAguaActivo = false;
+  let markerGregorovitch = null;
+  let markerEspejos = null;
+  let markerNucleos = null;
+  let petalosOcultos = false;
+  let vibracionActiva = false;
+  let scrollEfectoRaf = null;
+
+  function generarGotas(){
+    if(!waterDropsEl) return;
+    waterDropsEl.innerHTML = '';
+    const cantidad = 22;
+    for(let n=0; n<cantidad; n++){
+      const gota = document.createElement('div');
+      const esCorredera = n % 3 !== 0;
+      gota.className = esCorredera ? 'gota-corredera' : 'gota-fija';
+      const left = Math.random()*100;
+      gota.style.left = left.toFixed(2) + 'vw';
+      if(esCorredera){
+        const alto = 40 + Math.random()*90;
+        gota.style.height = alto.toFixed(0) + 'px';
+        gota.style.setProperty('--gota-op', (0.3 + Math.random()*0.4).toFixed(2));
+        gota.style.setProperty('--gota-dur-base', (2.6 + Math.random()*3.4).toFixed(2) + 's');
+        gota.style.animationDelay = (-Math.random()*6).toFixed(2) + 's';
+      } else {
+        const tam = 4 + Math.random()*9;
+        gota.style.width = tam.toFixed(0) + 'px';
+        gota.style.height = tam.toFixed(0) + 'px';
+        gota.style.top = (Math.random()*100).toFixed(2) + 'vh';
+        gota.style.animationDelay = (-Math.random()*3.8).toFixed(2) + 's';
+      }
+      waterDropsEl.appendChild(gota);
+    }
+  }
+
+  function generarPetalos(){
+    if(!jazminEl) return;
+    jazminEl.innerHTML = '';
+    const cantidad = 7;
+    for(let n=0; n<cantidad; n++){
+      const petalo = document.createElement('div');
+      petalo.className = 'petalo';
+      petalo.style.left = (Math.random()*100).toFixed(2) + 'vw';
+      petalo.style.setProperty('--deriva', (18 + Math.random()*46).toFixed(0) + 'px');
+      petalo.style.animationDuration = (9 + Math.random()*7).toFixed(2) + 's';
+      petalo.style.animationDelay = (-Math.random()*12).toFixed(2) + 's';
+      petalo.style.transform = `rotate(${Math.floor(Math.random()*360)}deg)`;
+      jazminEl.appendChild(petalo);
+    }
+  }
+
+  function buscarMarcadoresTexto(){
+    markerGregorovitch = null;
+    markerEspejos = null;
+    markerNucleos = null;
+    entryBodyEl.querySelectorAll('p').forEach(p => {
+      const t = p.textContent.trim();
+      if(!markerGregorovitch && t === 'Gregorovitch.') markerGregorovitch = p;
+      if(!markerEspejos && t === 'Los espejos se agitaron.') markerEspejos = p;
+      if(!markerNucleos && t === 'Núcleos de Sangre.') markerNucleos = p;
+    });
+  }
+
+  function posicionEnPagina(el){
+    if(!el) return 0;
+    const pageRect = journalPage.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    return elRect.top - pageRect.top + journalPage.scrollTop;
+  }
+
+  function evaluarEfectosScroll(){
+    if(!efectoAguaActivo) return;
+    const lineaLectura = journalPage.scrollTop + journalPage.clientHeight * 0.55;
+
+    const pasoGregorovitch = markerGregorovitch ? lineaLectura >= posicionEnPagina(markerGregorovitch) : false;
+    const pasoEspejos = markerEspejos ? lineaLectura >= posicionEnPagina(markerEspejos) : false;
+
+    intensidadLatidoObjetivo = pasoGregorovitch ? 1.9 : 1;
+
+    if(pasoGregorovitch && !petalosOcultos){
+      petalosOcultos = true;
+      if(jazminEl) jazminEl.classList.add('petalos-ocultos');
+    } else if(!pasoGregorovitch && petalosOcultos){
+      petalosOcultos = false;
+      if(jazminEl) jazminEl.classList.remove('petalos-ocultos');
+    }
+
+    if(pasoEspejos && !vibracionActiva){
+      vibracionActiva = true;
+      screenReader.classList.add('vibracion-activa');
+    } else if(!pasoEspejos && vibracionActiva){
+      vibracionActiva = false;
+      screenReader.classList.remove('vibracion-activa');
+    }
+
+    if(pasoEspejos && markerEspejos){
+      const topEspejos = posicionEnPagina(markerEspejos);
+      const topNucleos = markerNucleos ? posicionEnPagina(markerNucleos) : topEspejos + 1;
+      const rango = Math.max(1, topNucleos - topEspejos);
+      const progreso = (lineaLectura - topEspejos) / rango;
+      mezclaRojo = Math.max(0, Math.min(1, progreso));
     } else {
-      faces.forEach(f => f.setAttribute('fill', h.fill));
-      outline.setAttribute('stroke', h.stroke);
-      outline.removeAttribute('stroke-dasharray');
+      mezclaRojo = 0;
+    }
+
+    if(waterDropsEl){
+      const gr = Math.round(214 + (132 - 214) * mezclaRojo);
+      const gg = Math.round(224 + (16 - 224) * mezclaRojo);
+      const gb = Math.round(236 + (20 - 236) * mezclaRojo);
+      waterDropsEl.style.setProperty('--gota-color', `${gr},${gg},${gb}`);
+      waterDropsEl.style.setProperty('--gota-lentitud', (1 + mezclaRojo * 1.7).toFixed(2));
+      waterDropsEl.style.setProperty('--gota-espesor', (1 + mezclaRojo * 1.6).toFixed(2));
     }
   }
 
-  function lastHouseOrDefault(){
-    const history = getHistory();
-    return history.length > 0 ? houseByName(history[0].house) : houses[0];
+  function onScrollEfectoAgua(){
+    if(scrollEfectoRaf) return;
+    scrollEfectoRaf = requestAnimationFrame(() => {
+      scrollEfectoRaf = null;
+      evaluarEfectosScroll();
+    });
   }
 
-  function getLastNormalRoll(){
-    return parseInt(localStorage.getItem(LS_LAST_NORMAL_ROLL) || '0', 10);
-  }
-  function setLastNormalRoll(ts){
-    localStorage.setItem(LS_LAST_NORMAL_ROLL, String(ts));
+  function activarEfectoAgua(){
+    if(!waterDropsEl) waterDropsEl = document.getElementById('waterDrops');
+    if(!jazminEl) jazminEl = document.getElementById('jazminPetalos');
+
+    efectoAguaActivo = true;
+    petalosOcultos = false;
+    vibracionActiva = false;
+    mezclaRojo = 0;
+    intensidadLatido = 1;
+    intensidadLatidoObjetivo = 1;
+
+    generarGotas();
+    generarPetalos();
+    waterDropsEl.classList.add('activo');
+    jazminEl.classList.remove('petalos-ocultos');
+    jazminEl.classList.add('activo');
+    journalPage.classList.add('pagina-mojada');
+    screenReader.classList.remove('vibracion-activa');
+
+    buscarMarcadoresTexto();
+    journalPage.removeEventListener('scroll', onScrollEfectoAgua);
+    journalPage.addEventListener('scroll', onScrollEfectoAgua);
+    evaluarEfectosScroll();
   }
 
-  function startCooldown(lastRoll){
-    if(cooldownTimer) clearInterval(cooldownTimer);
-    rollBtn.disabled = true;
+  function desactivarEfectoAgua(){
+    efectoAguaActivo = false;
+    if(waterDropsEl) waterDropsEl.classList.remove('activo');
+    if(jazminEl){ jazminEl.classList.remove('activo'); jazminEl.classList.remove('petalos-ocultos'); }
+    journalPage.classList.remove('pagina-mojada');
+    screenReader.classList.remove('vibracion-activa');
+    journalPage.removeEventListener('scroll', onScrollEfectoAgua);
+    mezclaRojo = 0;
+    intensidadLatido = 1;
+    intensidadLatidoObjetivo = 1;
+    markerGregorovitch = null;
+    markerEspejos = null;
+    markerNucleos = null;
+  }
 
-    function tick(){
-      const elapsed = Date.now() - lastRoll;
-      const remaining = COOLDOWN_MS - elapsed;
-      if(remaining <= 0){
-        clearInterval(cooldownTimer);
-        cooldownTimer = null;
-        rollBtn.disabled = false;
-        rollBtn.textContent = 'Lanzar';
-      } else {
-        rollBtn.textContent = formatCountdown(remaining);
+  function redimensionarBruma(){
+    if(!brumaCanvas) return;
+    brumaCanvas.width = window.innerWidth;
+    brumaCanvas.height = window.innerHeight;
+  }
+
+  function iniciarBruma(){
+    if(!brumaCanvas){
+      brumaCanvas = document.getElementById('brumaCanvas');
+      brumaCtx = brumaCanvas.getContext('2d');
+    }
+    if(!brumaBlackSVG){
+      brumaBlackSVG = document.getElementById('brumaBlackSVG');
+      journalBlackGroupEl = document.getElementById('journalBlackGroup');
+    }
+    redimensionarBruma();
+
+    // bruma plateada: capas grandes y superpuestas que se funden entre si,
+    // cada una con lobulos internos para que la forma cambie sola
+    brumaParticulas = [];
+    const cantidad = 34;
+    for(let n=0; n<cantidad; n++){
+      const lobulos = [];
+      const nLob = 3;
+      for(let l=0; l<nLob; l++){
+        lobulos.push({
+          angulo: (Math.PI*2/nLob)*l + Math.random()*0.6,
+          velAngulo: (Math.random()-0.5) * 0.01,
+          dist: 10 + Math.random()*16,
+          fase: Math.random()*Math.PI*2,
+          velFase: 0.006 + Math.random()*0.01
+        });
       }
+      brumaParticulas.push({
+        x: Math.random() * brumaCanvas.width,
+        y: Math.random() * brumaCanvas.height,
+        r: 130 + Math.random() * 220,
+        vx: (Math.random() - 0.5) * 0.1,
+        vy: (Math.random() - 0.5) * 0.05 - 0.018,
+        op: 0.06 + Math.random() * 0.1,
+        fase: Math.random() * Math.PI * 2,
+        velFase: 0.0003 + Math.random() * 0.0005,
+        lobulos
+      });
     }
-    tick();
-    cooldownTimer = setInterval(tick, 250);
+
+    pulsoValor = 0;
+    pulsoProximo = 70 + Math.random()*110;
+
+    brumaCanvas.classList.add('activo');
+    if(brumaBlackSVG) brumaBlackSVG.classList.add('activo');
+    if(brumaAnimId) cancelAnimationFrame(brumaAnimId);
+    animarBruma();
   }
 
-  function clearCooldownUI(){
-    if(cooldownTimer){ clearInterval(cooldownTimer); cooldownTimer = null; }
-    rollBtn.disabled = false;
-    rollBtn.textContent = 'Lanzar';
+  function animarBruma(){
+    if(!brumaCanvas || !brumaCtx) return;
+    const W = brumaCanvas.width, H = brumaCanvas.height;
+    brumaCtx.clearRect(0, 0, W, H);
+
+    /* --- particulas plateadas (o rojizas, segun mezclaRojo), cambiando de forma --- */
+    const cr = Math.round(228 + (150 - 228) * mezclaRojo);
+    const cg = Math.round(231 + (22 - 231) * mezclaRojo);
+    const cb = Math.round(240 + (26 - 240) * mezclaRojo);
+    const colorMist = `${cr},${cg},${cb}`;
+
+    brumaCtx.globalCompositeOperation = 'lighter';
+    brumaParticulas.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.fase += p.velFase;
+      if(p.x < -p.r) p.x = W + p.r;
+      if(p.x > W + p.r) p.x = -p.r;
+      if(p.y < -p.r) p.y = H + p.r;
+      if(p.y > H + p.r) p.y = -p.r;
+
+      const opBase = p.op * (0.6 + 0.4 * Math.sin(p.fase));
+
+      p.lobulos.forEach(lob => {
+        lob.angulo += lob.velAngulo;
+        lob.fase += lob.velFase;
+        const desplazamiento = lob.dist * (0.7 + 0.3 * Math.sin(lob.fase));
+        const cx = p.x + Math.cos(lob.angulo) * desplazamiento;
+        const cy = p.y + Math.sin(lob.angulo) * desplazamiento;
+        const radioLob = p.r * (0.55 + 0.25 * Math.sin(lob.fase * 1.3));
+        const grad = brumaCtx.createRadialGradient(cx, cy, 0, cx, cy, radioLob);
+        grad.addColorStop(0, `rgba(${colorMist},${(opBase*0.8).toFixed(3)})`);
+        grad.addColorStop(0.6, `rgba(${colorMist},${(opBase*0.35).toFixed(3)})`);
+        grad.addColorStop(1, `rgba(${colorMist},0)`);
+        brumaCtx.fillStyle = grad;
+        brumaCtx.beginPath();
+        brumaCtx.arc(cx, cy, radioLob, 0, Math.PI * 2);
+        brumaCtx.fill();
+      });
+    });
+
+    /* --- pulso: alterna calma y arranques violentos, como un latido ---
+       intensidadLatido sube (mas fuerte y mas seguido) cuando el scroll
+       de la entrada con efecto agua pasa por "Gregorovitch." --- */
+    intensidadLatido += (intensidadLatidoObjetivo - intensidadLatido) * 0.02;
+
+    pulsoProximo--;
+    if(pulsoProximo <= 0){
+      pulsoValor = (0.7 + Math.random() * 0.9) * intensidadLatido;
+      pulsoProximo = (50 + Math.random() * 140) / intensidadLatido;
+    }
+    pulsoValor *= 0.965;
+    const intensidad = pulsoValor;
+
+    /* --- masa negra central: ahora es la turbulencia SVG (feTurbulence +
+       feDisplacementMap), el mismo pulso de calma/arranque solo controla
+       su tamaño con un escalado, la textura ya se retuerce sola --- */
+    if(journalBlackGroupEl){
+      const escala = Math.min(1.85, 1 + intensidad * 0.4);
+      journalBlackGroupEl.style.transform = `scale(${escala.toFixed(3)})`;
+    }
+
+    brumaAnimId = requestAnimationFrame(animarBruma);
   }
 
-  function restoreState(){
-    trainingMode = localStorage.getItem(LS_TRAINING) === '1';
-    trainingToggle.checked = trainingMode;
-
-    const history = getHistory();
-    renderHistory(history);
-    historyEl.classList.toggle('hidden', trainingMode);
-
-    if(history.length > 0){
-      resultEl.textContent = history[0].value;
+  function detenerBruma(){
+    if(brumaAnimId){
+      cancelAnimationFrame(brumaAnimId);
+      brumaAnimId = null;
     }
-    applyDiceStyle(lastHouseOrDefault());
-
-    if(trainingMode){
-      // Modo entrenamiento: sin timer, sin bloqueo del botón y sin historial visible.
-      clearCooldownUI();
-      return;
+    if(brumaCanvas){
+      brumaCanvas.classList.remove('activo');
+      if(brumaCtx) brumaCtx.clearRect(0, 0, brumaCanvas.width, brumaCanvas.height);
     }
-
-    const lastNormal = getLastNormalRoll();
-    if(lastNormal){
-      const elapsed = Date.now() - lastNormal;
-      if(elapsed < COOLDOWN_MS){
-        startCooldown(lastNormal);
-        return;
-      }
+    if(brumaBlackSVG){
+      brumaBlackSVG.classList.remove('activo');
     }
-    clearCooldownUI();
   }
 
-  trainingToggle.addEventListener('change', () => {
-    trainingMode = trainingToggle.checked;
-    localStorage.setItem(LS_TRAINING, trainingMode ? '1' : '0');
-    applyDiceStyle(lastHouseOrDefault());
-    historyEl.classList.toggle('hidden', trainingMode);
-
-    if(trainingMode){
-      clearCooldownUI();
-      return;
-    }
-
-    // Al volver del modo entrenamiento, se restaura el timer original (si lo había).
-    const lastNormal = getLastNormalRoll();
-    if(lastNormal){
-      const elapsed = Date.now() - lastNormal;
-      if(elapsed < COOLDOWN_MS){
-        startCooldown(lastNormal);
-        return;
-      }
-    }
-    clearCooldownUI();
+  window.addEventListener('resize', () => {
+    if(brumaCanvas && brumaCanvas.classList.contains('activo')) redimensionarBruma();
   });
 
-  function openModal(){
-    overlay.classList.add('open');
-    overlay.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-    navLinks.classList.remove('open');
-    closeBtn.focus();
-  }
-  function closeModal(){
-    overlay.classList.remove('open');
-    overlay.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-    if(window.location.hash === '#dado'){
-      window.history.pushState('', document.title, window.location.pathname + window.location.search);
+  function pintarEntrada(i){
+    const entrada = entradas[i];
+    journalPage.classList.toggle('hoja-arrancada', !!entrada.arrancada);
+    entryDateEl.textContent = entrada.fecha;
+    entryBodyEl.innerHTML = '';
+    entrada.parrafos.forEach(texto => {
+      const p = document.createElement('p');
+      p.appendChild(construirParrafo(texto));
+      entryBodyEl.appendChild(p);
+    });
+    pageCounter.textContent = `Página ${i+1} de ${entradas.length}`;
+
+    if(entrada.especial === 'bruma'){
+      aplicarNivel(0);
+      document.querySelectorAll('.crack-seg, .crack-shard').forEach(el => { el.style.opacity = 0; });
+      darkOverlay.style.opacity = 0;
+      document.body.classList.add('bruma-modo');
+      screenReader.classList.add('bruma-activa');
+      journalPage.classList.add('bruma-articulo');
+      iniciarBruma();
+    } else {
+      document.body.classList.remove('bruma-modo');
+      screenReader.classList.remove('bruma-activa');
+      journalPage.classList.remove('bruma-articulo');
+      detenerBruma();
+      aplicarNivel(entrada.nivel);
+    }
+
+    if(entrada.efectoAgua){
+      activarEfectoAgua();
+    } else {
+      desactivarEfectoAgua();
+    }
+
+    const textoSpan = navBtn.querySelector('span');
+    if(i < entradas.length - 1){
+      textoSpan.textContent = 'Ver página siguiente';
+      navBtn.onclick = () => irAPagina(i+1);
+    } else {
+      textoSpan.textContent = 'Cerrar la bitácora';
+      navBtn.onclick = () => cerrarLector();
     }
   }
 
-  // El dado tiene su propia URL (#dado): se puede abrir directamente con un link.
-  function goToDice(e){
-    if(e) e.preventDefault();
-    if(window.location.hash !== '#dado'){
-      window.history.pushState(null, '', '#dado');
-    }
-    openModal();
-  }
-  openLink.addEventListener('click', goToDice);
-  if(diceFab) diceFab.addEventListener('click', goToDice);
-  window.addEventListener('hashchange', () => {
-    if(window.location.hash === '#dado'){
-      openModal();
-    } else if(overlay.classList.contains('open')){
-      closeModal();
-    }
-  });
-  if(window.location.hash === '#dado'){
-    openModal();
-  }
-
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
-  document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
-
-  rollBtn.addEventListener('click', () => {
-    if(rolling || (!trainingMode && rollBtn.disabled)) return;
-    rolling = true;
-    rollBtn.disabled = true;
-    resultEl.textContent = '···';
-    resultEl.classList.remove('pop');
-    diceSvg.classList.remove('is-rolling');
-    void diceSvg.offsetWidth; // restart animation
-    diceSvg.classList.add('is-rolling');
-
-    let i = 0;
-    applyDiceStyle(houses[0]);
-    colorTimer = setInterval(() => {
-      i++;
-      applyDiceStyle(houses[i % houses.length]);
-    }, 95);
-
+  function irAPagina(i){
+    journalPage.classList.add('transicion');
     setTimeout(() => {
-      clearInterval(colorTimer);
-      diceSvg.classList.remove('is-rolling');
-      const finalHouse = houses[Math.floor(Math.random()*houses.length)];
-      applyDiceStyle(finalHouse);
-      const value = Math.floor(Math.random()*20) + 1;
-      resultEl.textContent = value;
-      resultEl.classList.add('pop');
+      indiceActual = i;
+      pintarEntrada(i);
+      journalPage.scrollTop = 0;
+      requestAnimationFrame(() => journalPage.classList.remove('transicion'));
+    }, 380);
+  }
 
-      const now = Date.now();
+  function abrirLector(indiceInicial){
+    const inicio = (typeof indiceInicial === 'number') ? indiceInicial : 0;
+    construirGrietas();
+    screenIntro.classList.add('fundido');
+    screenReader.classList.add('abierto');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => screenReader.classList.add('visible'));
+    });
+    indiceActual = inicio;
+    pintarEntrada(inicio);
+  }
 
-      rolling = false;
-      if(trainingMode){
-        // En Modo entrenamiento: no se guarda como registro en el historial ni se ve afectado el timer.
-        clearCooldownUI();
-      } else {
-        addToHistory(value, finalHouse.name, now);
-        setLastNormalRoll(now);
-        startCooldown(now);
-      }
-    }, 1120);
-  });
-
-  restoreState();
-})();
-
+  function cerrarLector(){
+    screenReader.classList.remove('visible');
+    screenIntro.classList.remove('fundido');
+    detenerBruma();
+    desactivarEfectoAgua();
+    document.body.classList.remove('bruma-modo');
+    screenReader.classList.remove('bruma-activa');
+    journalPage.classList.remove('bruma-articulo');
+    setTimeout(() => {
+      screenReader.classList.remove('abierto');
+      indiceActual = 0;
+      journalPage.scrollTop = 0;
+    }, 600);
+  }
 </script>
+
 </body>
 </html>
